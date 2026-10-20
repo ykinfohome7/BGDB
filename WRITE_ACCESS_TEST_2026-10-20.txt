@@ -1,0 +1,6 @@
+BGDB - GitHub write access test
+Date: 2026-10-20
+GitHub account: ykinfohome7
+Repository: ykinfohome7/BGDB
+Purpose: Confirm that a new UTF-8 text file can be committed through the connected GitHub integration.
+This is a harmless test file.
