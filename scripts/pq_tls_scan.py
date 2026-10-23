@@ -52,7 +52,9 @@ def scan_group(host: str, group: str) -> dict:
     elif valid:
         status = "inconclusive" if selected is None else "not_negotiated"
     elif completed.returncode != 0:
-        status = "not_negotiated"
+        # Connection, certificate and local OpenSSL failures do not establish
+        # whether the remote server supports the offered group.
+        status = "inconclusive"
     else:
         status = "inconclusive"
     return {
