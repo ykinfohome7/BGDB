@@ -1,79 +1,51 @@
-name: SSL Labs four-domain report
+name: BGDB Security Scanner — SSL Labs and PQ TLS
 
 on:
+  workflow_dispatch:
+    inputs:
+      target_host:
+        description: "Public hostname to check, for example money.bg (leave blank for default list)"
+        required: false
+        type: string
+        default: ""
   push:
     paths:
       - ".github/workflows/ssllabs-multisite.yml"
-  workflow_dispatch:
 
 permissions:
   contents: write
 
+concurrency:
+  group: bgdb-security-scanner
+  cancel-in-progress: false
+
 jobs:
   assess:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 28
     steps:
       - uses: actions/checkout@v4
-      - name: Check SSL Labs cache and assess owned sites if needed
-        shell: bash
+
+      - name: Verify website first, then fetch SSL Labs reports
         env:
           SSL_LABS_EMAIL: info@bgdb.eu
+          TARGET_HOST: ${{ inputs.target_host }}
         run: |
-          python3 - <<'PY'
-          import json,os,time,urllib.parse,urllib.request,urllib.error
-          from datetime import datetime,timezone
-          from pathlib import Path
-          email=os.environ["SSL_LABS_EMAIL"]
-          hosts=[("bgspiritllc.com",True),("bgdb.eu",True),("google.com",False),("yahoo.com",False)]
-          target=Path("reports/ssl-labs")
-          target.mkdir(parents=True,exist_ok=True)
-          summaries=[]
-          def analyze(host,params):
-              q=urllib.parse.urlencode({"host":host,"all":"done",**params})
-              req=urllib.request.Request("https://api.ssllabs.com/api/v4/analyze?"+q,headers={"email":email,"Accept":"application/json","User-Agent":"BGDB-SSL-Labs/1.0"})
-              try:
-                  with urllib.request.urlopen(req,timeout=55) as res:
-                      return json.load(res)
-              except urllib.error.HTTPError as exc:
-                  return {"status":"HTTP_ERROR","statusMessage":f"HTTP {exc.code}"}
-              except Exception as exc:
-                  return {"status":"NETWORK_ERROR","statusMessage":str(exc)[:150]}
-          for host,owned in hosts:
-              print("Starting",host,flush=True)
-              result=analyze(host,{"fromCache":"on"})
-              retrieved="cached"
-              # Never initiate new scans on third-party domains; only reuse existing public reports.
-              if owned and result.get("status") not in ("READY","IN_PROGRESS"):
-                  print("Initiating own-domain assessment for",host,flush=True)
-                  result=analyze(host,{"startNew":"on"})
-                  retrieved="initiated-own-scan"
-              if owned and result.get("status") in ("DNS","IN_PROGRESS"):
-                  for poll in range(48):
-                      time.sleep(12)
-                      result=analyze(host,{})
-                      if result.get("status") in ("READY","ERROR","HTTP_ERROR","NETWORK_ERROR"):
-                          break
-              stamp=datetime.now(timezone.utc).isoformat()
-              raw_path=target / (host+".json")
-              raw_path.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
-              endpoints=[]
-              for ep in result.get("endpoints",[]):
-                  details=ep.get("details") or {}
-                  endpoints.append({"ipAddress":ep.get("ipAddress"),"grade":ep.get("grade"),"gradeTrustIgnored":ep.get("gradeTrustIgnored"),"statusMessage":ep.get("statusMessage"),"protocols":details.get("protocols"),"forwardSecrecy":details.get("forwardSecrecy"),"poodle":details.get("poodle"),"heartbleed":details.get("heartbleed")})
-              info={"host":host,"source":"SSL Labs API v4","mode":retrieved,"retrieved_at_utc":stamp,"testTime":result.get("testTime"),"status":result.get("status"),"statusMessage":result.get("statusMessage"),"endpoints":endpoints}
-              summaries.append(info)
-              print(host,"status",info["status"],"grades",[e.get("grade") for e in endpoints],flush=True)
-          (target / "multisite-summary.json").write_text(json.dumps(summaries,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
-          PY
-      - name: Commit report
+          python3 scripts/ssllabs_scan.py
+
+      - name: Independently test post-quantum TLS on owned BGDB sites
+        if: ${{ inputs.target_host == '' || inputs.target_host == 'bgdb.eu' || inputs.target_host == 'bgspiritllc.com' }}
+        continue-on-error: true
+        run: |
+          docker run --rm -v "${PWD}:/workspace" -w /workspace alpine:3.23 sh -c 'apk add --no-cache ca-certificates python3 openssl >/dev/null && python3 scripts/pq_tls_scan.py'
+
+      - name: Commit reports and network request traces
         if: always()
-        shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add reports/ssl-labs/ 2>/dev/null || true
+          git add reports/ssl-labs/ reports/preflight/ reports/post-quantum-tls/ reports/transport/ 2>/dev/null || true
           if ! git diff --cached --quiet; then
-            git commit -m "Update SSL Labs results for four domains"
+            git commit -m "BGDB security scanner: SSL Labs, website preflight and PQ evidence"
             git push
           fi
