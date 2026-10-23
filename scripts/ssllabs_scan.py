@@ -6,6 +6,7 @@ cached results and are never newly scanned by this client.
 """
 import json
 import os
+import re
 import time
 import uuid
 import urllib.error
@@ -16,7 +17,30 @@ from pathlib import Path
 
 OWNED_HOSTS = ("bgspiritllc.com", "bgdb.eu")
 EXAMPLE_HOSTS = ("google.com", "yahoo.com", "meta.com")
-ALL_HOSTS = OWNED_HOSTS + EXAMPLE_HOSTS
+def safe_host(raw):
+    host = raw.strip().lower().rstrip(".")
+    if not host:
+        return ""
+    try:
+        host = host.encode("idna").decode("ascii")
+    except UnicodeError:
+        raise SystemExit("Invalid internationalized hostname")
+    if len(host) > 253 or not re.fullmatch(r"(?=.{1,253}$)[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?", host):
+        raise SystemExit("Invalid hostname")
+    if ".." in host or "." not in host:
+        raise SystemExit("Fully-qualified public hostname required")
+    return host
+
+
+def selected_hosts():
+    requested = safe_host(os.environ.get("TARGET_HOST", ""))
+    if requested:
+        return (requested,)
+    extra = [safe_host(h) for h in os.environ.get("BGDB_EXTRA_HOSTS", "").split(",") if h.strip()]
+    return tuple(dict.fromkeys((*OWNED_HOSTS, *EXAMPLE_HOSTS, *extra)))
+
+
+ALL_HOSTS = selected_hosts()
 API = "https://api.ssllabs.com/api/v4/analyze"
 OUT = Path("reports/ssl-labs")
 TRANSPORT = Path("reports/transport")
