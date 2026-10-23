@@ -1,0 +1,70 @@
+name: Register BGDB with SSL Labs API v4
+
+on:
+  push:
+    paths:
+      - ".github/workflows/ssllabs-register.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  register:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Register organization email with SSL Labs
+        env:
+          FIRST_NAME: Yavor
+          LAST_NAME: Karamfilov
+          ORGANIZATION: BG SPIRIT LLC
+          SSL_LABS_EMAIL: info@bgdb.eu
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .github/ssllabs
+          payload="$(jq -n --arg firstName "$FIRST_NAME" --arg lastName "$LAST_NAME" --arg email "$SSL_LABS_EMAIL" --arg organization "$ORGANIZATION" '{firstName:$firstName,lastName:$lastName,email:$email,organization:$organization}')"
+          http_code="$(curl -sS --retry 2 --max-time 45 -o /tmp/ssllabs-response.json -w '%{http_code}' -X POST 'https://api.ssllabs.com/api/v4/register' -H 'Content-Type: application/json' --data "$payload")"
+          export SSL_LABS_HTTP_CODE="$http_code"
+          python3 - <<'PY'
+          import json, os
+          from datetime import datetime, timezone
+          raw = open('/tmp/ssllabs-response.json', encoding='utf-8').read()
+          try:
+              data = json.loads(raw)
+          except ValueError:
+              data = {}
+          status = str(data.get('status', 'unknown'))
+          message = str(data.get('message', 'No JSON registration message returned'))
+          email = os.environ['SSL_LABS_EMAIL']
+          message = message.replace(email, '[registered email]')
+          output = {
+              'checked_at_utc': datetime.now(timezone.utc).isoformat(),
+              'http_status': os.environ['SSL_LABS_HTTP_CODE'],
+              'status': status,
+              'message': message[:500],
+              'service': 'SSL Labs API v4',
+          }
+          with open('.github/ssllabs/registration-result.json', 'w', encoding='utf-8') as f:
+              json.dump(output, f, ensure_ascii=False, indent=2)
+              f.write('\n')
+          print('SSL Labs registration:', status, '(HTTP', os.environ['SSL_LABS_HTTP_CODE'] + ')')
+          PY
+
+      - name: Record sanitized registration status
+        if: always()
+        shell: bash
+        run: |
+          if [ ! -f .github/ssllabs/registration-result.json ]; then
+            echo '{"status":"error","message":"Registration request did not finish; inspect workflow logs"}' > .github/ssllabs/registration-result.json
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/ssllabs/registration-result.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Record SSL Labs API registration status"
+            git push
+          fi
