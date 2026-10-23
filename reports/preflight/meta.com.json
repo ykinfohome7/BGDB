@@ -1,0 +1,13 @@
+{
+  "host": "meta.com",
+  "checked_at_utc": "2026-10-23T17:00:06.148934+00:00",
+  "dns": "public_addresses_found",
+  "dns_addresses": [
+    "2a03:2880:f003:c07:face:b00c:0:2",
+    "31.13.66.4"
+  ],
+  "https": "responded_with_http_status",
+  "http_status": 301,
+  "proceed_to_ssl_labs": true,
+  "reason": null
+}

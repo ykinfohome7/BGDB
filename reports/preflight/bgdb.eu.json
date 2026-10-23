@@ -1,0 +1,12 @@
+{
+  "host": "bgdb.eu",
+  "checked_at_utc": "2026-10-23T16:59:57.801354+00:00",
+  "dns": "public_addresses_found",
+  "dns_addresses": [
+    "192.124.249.71"
+  ],
+  "https": "responded",
+  "http_status": 200,
+  "proceed_to_ssl_labs": true,
+  "reason": null
+}

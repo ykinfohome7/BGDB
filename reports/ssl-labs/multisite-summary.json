@@ -1,17 +1,32 @@
 [
   {
     "host": "bgspiritllc.com",
-    "source": "SSL Labs API v4",
-    "mode": "cached",
-    "retrieved_at_utc": "2026-10-23T16:20:18.821287+00:00",
-    "testTime": 1792770528789,
-    "status": "READY",
-    "statusMessage": null,
+    "owned": true,
+    "preflight": {
+      "host": "bgspiritllc.com",
+      "checked_at_utc": "2026-10-23T16:59:56.822847+00:00",
+      "dns": "public_addresses_found",
+      "dns_addresses": [
+        "192.124.249.11"
+      ],
+      "https": "responded_with_http_status",
+      "http_status": 301,
+      "proceed_to_ssl_labs": true,
+      "reason": null
+    },
+    "source": "Qualys SSL Labs API v4",
+    "requested_at_utc": "2026-10-23T16:59:57.800867+00:00",
+    "last_api_status": "READY",
+    "last_api_message": null,
+    "report_mode": "cached-api",
+    "report_ready": true,
+    "newly_retrieved": true,
+    "previous_report_reused": false,
+    "report_test_time_ms": 1792770528789,
     "endpoints": [
       {
         "ipAddress": "192.124.249.11",
         "grade": "A",
-        "gradeTrustIgnored": "A",
         "statusMessage": "Ready",
         "protocols": [
           {
@@ -25,25 +40,119 @@
             "version": "1.3"
           }
         ],
-        "forwardSecrecy": 4,
-        "poodle": false,
-        "heartbleed": false
+        "namedGroups": {
+          "list": [
+            {
+              "id": 4588,
+              "name": "X25519MLKEM768",
+              "bits": 256,
+              "namedGroupType": "PQC"
+            },
+            {
+              "id": 4587,
+              "name": "SecP256r1MLKEM768",
+              "bits": 256,
+              "namedGroupType": "PQC"
+            },
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 30,
+              "name": "x448",
+              "bits": 224,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 25,
+              "name": "secp521r1",
+              "bits": 521,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 24,
+              "name": "secp384r1",
+              "bits": 384,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 256,
+              "name": "ffdhe2048",
+              "bits": 2048,
+              "namedGroupType": "FF"
+            },
+            {
+              "id": 257,
+              "name": "ffdhe3072",
+              "bits": 3072,
+              "namedGroupType": "FF"
+            },
+            {
+              "id": 258,
+              "name": "ffdhe4096",
+              "bits": 4096,
+              "namedGroupType": "FF"
+            },
+            {
+              "id": 259,
+              "name": "ffdhe6144",
+              "bits": 6144,
+              "namedGroupType": "FF"
+            },
+            {
+              "id": 260,
+              "name": "ffdhe8192",
+              "bits": 8192,
+              "namedGroupType": "FF"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 4
       }
-    ]
+    ],
+    "transport_attempt_count": 1,
+    "transport_retry_count": 0,
+    "transport_no_usable_response_count": 0,
+    "trace": "reports/transport/ssl-labs-api.json"
   },
   {
     "host": "bgdb.eu",
-    "source": "SSL Labs API v4",
-    "mode": "initiated-own-scan",
-    "retrieved_at_utc": "2026-10-23T16:21:20.681554+00:00",
-    "testTime": 1792772479578,
-    "status": "READY",
-    "statusMessage": null,
+    "owned": true,
+    "preflight": {
+      "host": "bgdb.eu",
+      "checked_at_utc": "2026-10-23T16:59:57.801354+00:00",
+      "dns": "public_addresses_found",
+      "dns_addresses": [
+        "192.124.249.71"
+      ],
+      "https": "responded",
+      "http_status": 200,
+      "proceed_to_ssl_labs": true,
+      "reason": null
+    },
+    "source": "Qualys SSL Labs API v4",
+    "requested_at_utc": "2026-10-23T17:00:04.208754+00:00",
+    "last_api_status": "READY",
+    "last_api_message": null,
+    "report_mode": "cached-api",
+    "report_ready": true,
+    "newly_retrieved": true,
+    "previous_report_reused": false,
+    "report_test_time_ms": 1792772479578,
     "endpoints": [
       {
         "ipAddress": "192.124.249.71",
         "grade": "A",
-        "gradeTrustIgnored": "A",
         "statusMessage": "Ready",
         "protocols": [
           {
@@ -57,25 +166,128 @@
             "version": "1.3"
           }
         ],
-        "forwardSecrecy": 4,
-        "poodle": false,
-        "heartbleed": false
+        "namedGroups": {
+          "list": [
+            {
+              "id": 4588,
+              "name": "X25519MLKEM768",
+              "bits": 256,
+              "namedGroupType": "PQC"
+            },
+            {
+              "id": 4587,
+              "name": "SecP256r1MLKEM768",
+              "bits": 256,
+              "namedGroupType": "PQC"
+            },
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 30,
+              "name": "x448",
+              "bits": 224,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 25,
+              "name": "secp521r1",
+              "bits": 521,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 24,
+              "name": "secp384r1",
+              "bits": 384,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 256,
+              "name": "ffdhe2048",
+              "bits": 2048,
+              "namedGroupType": "FF"
+            },
+            {
+              "id": 257,
+              "name": "ffdhe3072",
+              "bits": 3072,
+              "namedGroupType": "FF"
+            },
+            {
+              "id": 258,
+              "name": "ffdhe4096",
+              "bits": 4096,
+              "namedGroupType": "FF"
+            },
+            {
+              "id": 259,
+              "name": "ffdhe6144",
+              "bits": 6144,
+              "namedGroupType": "FF"
+            },
+            {
+              "id": 260,
+              "name": "ffdhe8192",
+              "bits": 8192,
+              "namedGroupType": "FF"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 4
       }
-    ]
+    ],
+    "transport_attempt_count": 1,
+    "transport_retry_count": 0,
+    "transport_no_usable_response_count": 0,
+    "trace": "reports/transport/ssl-labs-api.json"
   },
   {
     "host": "google.com",
-    "source": "SSL Labs API v4",
-    "mode": "cached",
-    "retrieved_at_utc": "2026-10-23T16:21:21.294080+00:00",
-    "testTime": 1792767181196,
-    "status": "READY",
-    "statusMessage": null,
+    "owned": false,
+    "preflight": {
+      "host": "google.com",
+      "checked_at_utc": "2026-10-23T17:00:04.209405+00:00",
+      "dns": "public_addresses_found",
+      "dns_addresses": [
+        "142.250.31.100",
+        "142.250.31.101",
+        "142.250.31.102",
+        "142.250.31.113",
+        "142.250.31.138",
+        "142.250.31.139",
+        "2607:f8b0:4004:c08::65",
+        "2607:f8b0:4004:c08::66",
+        "2607:f8b0:4004:c08::71",
+        "2607:f8b0:4004:c08::8a"
+      ],
+      "https": "responded_with_http_status",
+      "http_status": 301,
+      "proceed_to_ssl_labs": true,
+      "reason": null
+    },
+    "source": "Qualys SSL Labs API v4",
+    "requested_at_utc": "2026-10-23T17:00:05.273104+00:00",
+    "last_api_status": "READY",
+    "last_api_message": null,
+    "report_mode": "cached-api",
+    "report_ready": true,
+    "newly_retrieved": true,
+    "previous_report_reused": false,
+    "report_test_time_ms": 1792767181196,
     "endpoints": [
       {
         "ipAddress": "172.217.75.139",
         "grade": "B",
-        "gradeTrustIgnored": "B",
         "statusMessage": "Ready",
         "protocols": [
           {
@@ -99,14 +311,34 @@
             "version": "1.3"
           }
         ],
-        "forwardSecrecy": 2,
-        "poodle": false,
-        "heartbleed": false
+        "namedGroups": {
+          "list": [
+            {
+              "id": 4588,
+              "name": "X25519MLKEM768",
+              "bits": 256,
+              "namedGroupType": "PQC"
+            },
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 2
       },
       {
         "ipAddress": "172.217.75.138",
         "grade": "B",
-        "gradeTrustIgnored": "B",
         "statusMessage": "Ready",
         "protocols": [
           {
@@ -130,14 +362,34 @@
             "version": "1.3"
           }
         ],
-        "forwardSecrecy": 2,
-        "poodle": false,
-        "heartbleed": false
+        "namedGroups": {
+          "list": [
+            {
+              "id": 4588,
+              "name": "X25519MLKEM768",
+              "bits": 256,
+              "namedGroupType": "PQC"
+            },
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 2
       },
       {
         "ipAddress": "2607:f8b0:4023:200b:0:0:0:64",
         "grade": "B",
-        "gradeTrustIgnored": "B",
         "statusMessage": "Ready",
         "protocols": [
           {
@@ -161,14 +413,34 @@
             "version": "1.3"
           }
         ],
-        "forwardSecrecy": 2,
-        "poodle": false,
-        "heartbleed": false
+        "namedGroups": {
+          "list": [
+            {
+              "id": 4588,
+              "name": "X25519MLKEM768",
+              "bits": 256,
+              "namedGroupType": "PQC"
+            },
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 2
       },
       {
         "ipAddress": "172.217.75.113",
         "grade": "B",
-        "gradeTrustIgnored": "B",
         "statusMessage": "Ready",
         "protocols": [
           {
@@ -192,14 +464,34 @@
             "version": "1.3"
           }
         ],
-        "forwardSecrecy": 2,
-        "poodle": false,
-        "heartbleed": false
+        "namedGroups": {
+          "list": [
+            {
+              "id": 4588,
+              "name": "X25519MLKEM768",
+              "bits": 256,
+              "namedGroupType": "PQC"
+            },
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 2
       },
       {
         "ipAddress": "2607:f8b0:4023:200b:0:0:0:65",
         "grade": "B",
-        "gradeTrustIgnored": "B",
         "statusMessage": "Ready",
         "protocols": [
           {
@@ -223,14 +515,34 @@
             "version": "1.3"
           }
         ],
-        "forwardSecrecy": 2,
-        "poodle": false,
-        "heartbleed": false
+        "namedGroups": {
+          "list": [
+            {
+              "id": 4588,
+              "name": "X25519MLKEM768",
+              "bits": 256,
+              "namedGroupType": "PQC"
+            },
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 2
       },
       {
         "ipAddress": "2607:f8b0:4023:200b:0:0:0:66",
         "grade": "B",
-        "gradeTrustIgnored": "B",
         "statusMessage": "Ready",
         "protocols": [
           {
@@ -254,14 +566,34 @@
             "version": "1.3"
           }
         ],
-        "forwardSecrecy": 2,
-        "poodle": false,
-        "heartbleed": false
+        "namedGroups": {
+          "list": [
+            {
+              "id": 4588,
+              "name": "X25519MLKEM768",
+              "bits": 256,
+              "namedGroupType": "PQC"
+            },
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 2
       },
       {
         "ipAddress": "172.217.75.101",
         "grade": "B",
-        "gradeTrustIgnored": "B",
         "statusMessage": "Ready",
         "protocols": [
           {
@@ -285,14 +617,34 @@
             "version": "1.3"
           }
         ],
-        "forwardSecrecy": 2,
-        "poodle": false,
-        "heartbleed": false
+        "namedGroups": {
+          "list": [
+            {
+              "id": 4588,
+              "name": "X25519MLKEM768",
+              "bits": 256,
+              "namedGroupType": "PQC"
+            },
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 2
       },
       {
         "ipAddress": "172.217.75.100",
         "grade": "B",
-        "gradeTrustIgnored": "B",
         "statusMessage": "Ready",
         "protocols": [
           {
@@ -316,14 +668,34 @@
             "version": "1.3"
           }
         ],
-        "forwardSecrecy": 2,
-        "poodle": false,
-        "heartbleed": false
+        "namedGroups": {
+          "list": [
+            {
+              "id": 4588,
+              "name": "X25519MLKEM768",
+              "bits": 256,
+              "namedGroupType": "PQC"
+            },
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 2
       },
       {
         "ipAddress": "172.217.75.102",
         "grade": "B",
-        "gradeTrustIgnored": "B",
         "statusMessage": "Ready",
         "protocols": [
           {
@@ -347,14 +719,34 @@
             "version": "1.3"
           }
         ],
-        "forwardSecrecy": 2,
-        "poodle": false,
-        "heartbleed": false
+        "namedGroups": {
+          "list": [
+            {
+              "id": 4588,
+              "name": "X25519MLKEM768",
+              "bits": 256,
+              "namedGroupType": "PQC"
+            },
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 2
       },
       {
         "ipAddress": "2607:f8b0:4023:200b:0:0:0:8a",
         "grade": "B",
-        "gradeTrustIgnored": "B",
         "statusMessage": "Ready",
         "protocols": [
           {
@@ -378,25 +770,76 @@
             "version": "1.3"
           }
         ],
-        "forwardSecrecy": 2,
-        "poodle": false,
-        "heartbleed": false
+        "namedGroups": {
+          "list": [
+            {
+              "id": 4588,
+              "name": "X25519MLKEM768",
+              "bits": 256,
+              "namedGroupType": "PQC"
+            },
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 2
       }
-    ]
+    ],
+    "transport_attempt_count": 1,
+    "transport_retry_count": 0,
+    "transport_no_usable_response_count": 0,
+    "trace": "reports/transport/ssl-labs-api.json"
   },
   {
     "host": "yahoo.com",
-    "source": "SSL Labs API v4",
-    "mode": "cached",
-    "retrieved_at_utc": "2026-10-23T16:21:22.026718+00:00",
-    "testTime": 1792724998306,
-    "status": "READY",
-    "statusMessage": null,
+    "owned": false,
+    "preflight": {
+      "host": "yahoo.com",
+      "checked_at_utc": "2026-10-23T17:00:05.274218+00:00",
+      "dns": "public_addresses_found",
+      "dns_addresses": [
+        "2001:4998:124:1507::f000",
+        "2001:4998:124:1507::f001",
+        "2001:4998:24:120d::1:0",
+        "2001:4998:24:120d::1:1",
+        "2001:4998:44:3507::8000",
+        "2001:4998:44:3507::8001",
+        "74.6.143.25",
+        "74.6.143.26",
+        "74.6.231.20",
+        "74.6.231.21",
+        "98.137.11.163",
+        "98.137.11.164"
+      ],
+      "https": "responded_with_http_status",
+      "http_status": 301,
+      "proceed_to_ssl_labs": true,
+      "reason": null
+    },
+    "source": "Qualys SSL Labs API v4",
+    "requested_at_utc": "2026-10-23T17:00:06.147441+00:00",
+    "last_api_status": "READY",
+    "last_api_message": null,
+    "report_mode": "cached-api",
+    "report_ready": true,
+    "newly_retrieved": true,
+    "previous_report_reused": false,
+    "report_test_time_ms": 1792724998306,
     "endpoints": [
       {
         "ipAddress": "2001:4998:24:120d:0:0:1:1",
         "grade": "A+",
-        "gradeTrustIgnored": "A+",
         "statusMessage": "Ready",
         "protocols": [
           {
@@ -410,14 +853,46 @@
             "version": "1.3"
           }
         ],
-        "forwardSecrecy": 4,
-        "poodle": false,
-        "heartbleed": false
+        "namedGroups": {
+          "list": [
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 30,
+              "name": "x448",
+              "bits": 224,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 25,
+              "name": "secp521r1",
+              "bits": 521,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 24,
+              "name": "secp384r1",
+              "bits": 384,
+              "namedGroupType": "EC"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 4
       },
       {
         "ipAddress": "74.6.231.20",
         "grade": "A+",
-        "gradeTrustIgnored": "A+",
         "statusMessage": "Ready",
         "protocols": [
           {
@@ -431,14 +906,46 @@
             "version": "1.3"
           }
         ],
-        "forwardSecrecy": 4,
-        "poodle": false,
-        "heartbleed": false
+        "namedGroups": {
+          "list": [
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 30,
+              "name": "x448",
+              "bits": 224,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 25,
+              "name": "secp521r1",
+              "bits": 521,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 24,
+              "name": "secp384r1",
+              "bits": 384,
+              "namedGroupType": "EC"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 4
       },
       {
         "ipAddress": "74.6.231.21",
         "grade": "A+",
-        "gradeTrustIgnored": "A+",
         "statusMessage": "Ready",
         "protocols": [
           {
@@ -452,14 +959,46 @@
             "version": "1.3"
           }
         ],
-        "forwardSecrecy": 4,
-        "poodle": false,
-        "heartbleed": false
+        "namedGroups": {
+          "list": [
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 30,
+              "name": "x448",
+              "bits": 224,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 25,
+              "name": "secp521r1",
+              "bits": 521,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 24,
+              "name": "secp384r1",
+              "bits": 384,
+              "namedGroupType": "EC"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 4
       },
       {
         "ipAddress": "2001:4998:24:120d:0:0:1:0",
         "grade": "A+",
-        "gradeTrustIgnored": "A+",
         "statusMessage": "Ready",
         "protocols": [
           {
@@ -473,14 +1012,46 @@
             "version": "1.3"
           }
         ],
-        "forwardSecrecy": 4,
-        "poodle": false,
-        "heartbleed": false
+        "namedGroups": {
+          "list": [
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 30,
+              "name": "x448",
+              "bits": 224,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 25,
+              "name": "secp521r1",
+              "bits": 521,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 24,
+              "name": "secp384r1",
+              "bits": 384,
+              "namedGroupType": "EC"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 4
       },
       {
         "ipAddress": "2001:4998:44:3507:0:0:0:8001",
         "grade": "A+",
-        "gradeTrustIgnored": "A+",
         "statusMessage": "Ready",
         "protocols": [
           {
@@ -494,14 +1065,46 @@
             "version": "1.3"
           }
         ],
-        "forwardSecrecy": 4,
-        "poodle": false,
-        "heartbleed": false
+        "namedGroups": {
+          "list": [
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 30,
+              "name": "x448",
+              "bits": 224,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 25,
+              "name": "secp521r1",
+              "bits": 521,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 24,
+              "name": "secp384r1",
+              "bits": 384,
+              "namedGroupType": "EC"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 4
       },
       {
         "ipAddress": "2001:4998:124:1507:0:0:0:f001",
         "grade": "A+",
-        "gradeTrustIgnored": "A+",
         "statusMessage": "Ready",
         "protocols": [
           {
@@ -515,14 +1118,46 @@
             "version": "1.3"
           }
         ],
-        "forwardSecrecy": 4,
-        "poodle": false,
-        "heartbleed": false
+        "namedGroups": {
+          "list": [
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 30,
+              "name": "x448",
+              "bits": 224,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 25,
+              "name": "secp521r1",
+              "bits": 521,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 24,
+              "name": "secp384r1",
+              "bits": 384,
+              "namedGroupType": "EC"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 4
       },
       {
         "ipAddress": "98.137.11.163",
         "grade": "A+",
-        "gradeTrustIgnored": "A+",
         "statusMessage": "Ready",
         "protocols": [
           {
@@ -536,14 +1171,46 @@
             "version": "1.3"
           }
         ],
-        "forwardSecrecy": 4,
-        "poodle": false,
-        "heartbleed": false
+        "namedGroups": {
+          "list": [
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 30,
+              "name": "x448",
+              "bits": 224,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 25,
+              "name": "secp521r1",
+              "bits": 521,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 24,
+              "name": "secp384r1",
+              "bits": 384,
+              "namedGroupType": "EC"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 4
       },
       {
         "ipAddress": "2001:4998:124:1507:0:0:0:f000",
         "grade": "A+",
-        "gradeTrustIgnored": "A+",
         "statusMessage": "Ready",
         "protocols": [
           {
@@ -557,14 +1224,46 @@
             "version": "1.3"
           }
         ],
-        "forwardSecrecy": 4,
-        "poodle": false,
-        "heartbleed": false
+        "namedGroups": {
+          "list": [
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 30,
+              "name": "x448",
+              "bits": 224,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 25,
+              "name": "secp521r1",
+              "bits": 521,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 24,
+              "name": "secp384r1",
+              "bits": 384,
+              "namedGroupType": "EC"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 4
       },
       {
         "ipAddress": "2001:4998:44:3507:0:0:0:8000",
         "grade": "A+",
-        "gradeTrustIgnored": "A+",
         "statusMessage": "Ready",
         "protocols": [
           {
@@ -578,14 +1277,46 @@
             "version": "1.3"
           }
         ],
-        "forwardSecrecy": 4,
-        "poodle": false,
-        "heartbleed": false
+        "namedGroups": {
+          "list": [
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 30,
+              "name": "x448",
+              "bits": 224,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 25,
+              "name": "secp521r1",
+              "bits": 521,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 24,
+              "name": "secp384r1",
+              "bits": 384,
+              "namedGroupType": "EC"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 4
       },
       {
         "ipAddress": "74.6.143.26",
         "grade": "A+",
-        "gradeTrustIgnored": "A+",
         "statusMessage": "Ready",
         "protocols": [
           {
@@ -599,14 +1330,46 @@
             "version": "1.3"
           }
         ],
-        "forwardSecrecy": 4,
-        "poodle": false,
-        "heartbleed": false
+        "namedGroups": {
+          "list": [
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 30,
+              "name": "x448",
+              "bits": 224,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 25,
+              "name": "secp521r1",
+              "bits": 521,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 24,
+              "name": "secp384r1",
+              "bits": 384,
+              "namedGroupType": "EC"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 4
       },
       {
         "ipAddress": "98.137.11.164",
         "grade": "A+",
-        "gradeTrustIgnored": "A+",
         "statusMessage": "Ready",
         "protocols": [
           {
@@ -620,14 +1383,46 @@
             "version": "1.3"
           }
         ],
-        "forwardSecrecy": 4,
-        "poodle": false,
-        "heartbleed": false
+        "namedGroups": {
+          "list": [
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 30,
+              "name": "x448",
+              "bits": 224,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 25,
+              "name": "secp521r1",
+              "bits": 521,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 24,
+              "name": "secp384r1",
+              "bits": 384,
+              "namedGroupType": "EC"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 4
       },
       {
         "ipAddress": "74.6.143.25",
         "grade": "A+",
-        "gradeTrustIgnored": "A+",
         "statusMessage": "Ready",
         "protocols": [
           {
@@ -641,10 +1436,192 @@
             "version": "1.3"
           }
         ],
-        "forwardSecrecy": 4,
-        "poodle": false,
-        "heartbleed": false
+        "namedGroups": {
+          "list": [
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 30,
+              "name": "x448",
+              "bits": 224,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 25,
+              "name": "secp521r1",
+              "bits": 521,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 24,
+              "name": "secp384r1",
+              "bits": 384,
+              "namedGroupType": "EC"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 4
       }
-    ]
+    ],
+    "transport_attempt_count": 1,
+    "transport_retry_count": 0,
+    "transport_no_usable_response_count": 0,
+    "trace": "reports/transport/ssl-labs-api.json"
+  },
+  {
+    "host": "meta.com",
+    "owned": false,
+    "preflight": {
+      "host": "meta.com",
+      "checked_at_utc": "2026-10-23T17:00:06.148934+00:00",
+      "dns": "public_addresses_found",
+      "dns_addresses": [
+        "2a03:2880:f003:c07:face:b00c:0:2",
+        "31.13.66.4"
+      ],
+      "https": "responded_with_http_status",
+      "http_status": 301,
+      "proceed_to_ssl_labs": true,
+      "reason": null
+    },
+    "source": "Qualys SSL Labs API v4",
+    "requested_at_utc": "2026-10-23T17:00:06.624360+00:00",
+    "last_api_status": "READY",
+    "last_api_message": null,
+    "report_mode": "cached-api",
+    "report_ready": true,
+    "newly_retrieved": true,
+    "previous_report_reused": false,
+    "report_test_time_ms": 1792774606099,
+    "endpoints": [
+      {
+        "ipAddress": "2a03:2880:f003:c07:face:b00c:0:2",
+        "grade": "A+",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "namedGroups": {
+          "list": [
+            {
+              "id": 4588,
+              "name": "X25519MLKEM768",
+              "bits": 256,
+              "namedGroupType": "PQC"
+            },
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 4
+      },
+      {
+        "ipAddress": "31.13.66.4",
+        "grade": "A+",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "namedGroups": {
+          "list": [
+            {
+              "id": 4588,
+              "name": "X25519MLKEM768",
+              "bits": 256,
+              "namedGroupType": "PQC"
+            },
+            {
+              "id": 29,
+              "name": "x25519",
+              "bits": 256,
+              "namedGroupType": "EC"
+            },
+            {
+              "id": 23,
+              "name": "secp256r1",
+              "bits": 256,
+              "namedGroupType": "EC"
+            }
+          ],
+          "preference": true
+        },
+        "forwardSecrecy": 4
+      }
+    ],
+    "transport_attempt_count": 1,
+    "transport_retry_count": 0,
+    "transport_no_usable_response_count": 0,
+    "trace": "reports/transport/ssl-labs-api.json"
+  },
+  {
+    "host": "money.bg",
+    "owned": false,
+    "preflight": {
+      "host": "money.bg",
+      "checked_at_utc": "2026-10-23T17:00:06.625870+00:00",
+      "dns": "public_addresses_found",
+      "dns_addresses": [
+        "2600:1901:0:c9e0::",
+        "34.149.32.115"
+      ],
+      "https": "responded",
+      "http_status": 200,
+      "proceed_to_ssl_labs": true,
+      "reason": null
+    },
+    "source": "Qualys SSL Labs API v4",
+    "requested_at_utc": "2026-10-23T17:00:07.680587+00:00",
+    "last_api_status": "DNS",
+    "last_api_message": "Resolving domain names",
+    "report_mode": "unavailable",
+    "report_ready": false,
+    "newly_retrieved": false,
+    "previous_report_reused": false,
+    "report_test_time_ms": null,
+    "endpoints": [],
+    "transport_attempt_count": 1,
+    "transport_retry_count": 0,
+    "transport_no_usable_response_count": 0,
+    "trace": "reports/transport/ssl-labs-api.json"
   }
 ]

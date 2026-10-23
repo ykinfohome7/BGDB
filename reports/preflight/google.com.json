@@ -1,0 +1,21 @@
+{
+  "host": "google.com",
+  "checked_at_utc": "2026-10-23T17:00:04.209405+00:00",
+  "dns": "public_addresses_found",
+  "dns_addresses": [
+    "142.250.31.100",
+    "142.250.31.101",
+    "142.250.31.102",
+    "142.250.31.113",
+    "142.250.31.138",
+    "142.250.31.139",
+    "2607:f8b0:4004:c08::65",
+    "2607:f8b0:4004:c08::66",
+    "2607:f8b0:4004:c08::71",
+    "2607:f8b0:4004:c08::8a"
+  ],
+  "https": "responded_with_http_status",
+  "http_status": 301,
+  "proceed_to_ssl_labs": true,
+  "reason": null
+}

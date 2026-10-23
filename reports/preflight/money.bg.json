@@ -1,0 +1,13 @@
+{
+  "host": "money.bg",
+  "checked_at_utc": "2026-10-23T17:00:06.625870+00:00",
+  "dns": "public_addresses_found",
+  "dns_addresses": [
+    "2600:1901:0:c9e0::",
+    "34.149.32.115"
+  ],
+  "https": "responded",
+  "http_status": 200,
+  "proceed_to_ssl_labs": true,
+  "reason": null
+}

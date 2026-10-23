@@ -1,0 +1,64 @@
+{
+  "host": "bgdb.eu",
+  "checked_at_utc": "2026-10-23T17:00:13.817204+00:00",
+  "engine": "OpenSSL 3.5.9 29 Sep 2026 (Library: OpenSSL 3.5.9 29 Sep 2026)",
+  "tls_version_tested": "TLSv1.3",
+  "status": "pq_kex_confirmed",
+  "negotiated_pq_groups": [
+    "X25519MLKEM768",
+    "SecP256r1MLKEM768",
+    "SecP384r1MLKEM1024"
+  ],
+  "classical_baseline": {
+    "group_offered": "X25519",
+    "negotiated_group": null,
+    "tls_version": "TLSv1.3",
+    "result": "inconclusive",
+    "exit_code": 0,
+    "diagnostic": "Connecting to 192.124.249.71\nCONNECTION ESTABLISHED\nProtocol version: TLSv1.3\nCiphersuite: TLS_AES_256_GCM_SHA384\nPeer certificate: CN=bgdb.eu\nHash used: SHA256\nSignature type: rsa_pss_rsae_sha256\nVerification: OK\nVerified peername: bgdb.eu\nPeer Temp Key: X25519, 253 bits\nDONE"
+  },
+  "post_quantum_group_checks": [
+    {
+      "group_offered": "X25519MLKEM768",
+      "negotiated_group": "X25519MLKEM768",
+      "tls_version": "TLSv1.3",
+      "result": "negotiated",
+      "exit_code": 0,
+      "diagnostic": "Connecting to 192.124.249.71\nCONNECTION ESTABLISHED\nProtocol version: TLSv1.3\nCiphersuite: TLS_AES_256_GCM_SHA384\nPeer certificate: CN=bgdb.eu\nHash used: SHA256\nSignature type: rsa_pss_rsae_sha256\nVerification: OK\nVerified peername: bgdb.eu\nNegotiated TLS1.3 group: X25519MLKEM768\nDONE"
+    },
+    {
+      "group_offered": "SecP256r1MLKEM768",
+      "negotiated_group": "SecP256r1MLKEM768",
+      "tls_version": "TLSv1.3",
+      "result": "negotiated",
+      "exit_code": 0,
+      "diagnostic": "Connecting to 192.124.249.71\nCONNECTION ESTABLISHED\nProtocol version: TLSv1.3\nCiphersuite: TLS_AES_256_GCM_SHA384\nPeer certificate: CN=bgdb.eu\nHash used: SHA256\nSignature type: rsa_pss_rsae_sha256\nVerification: OK\nVerified peername: bgdb.eu\nNegotiated TLS1.3 group: SecP256r1MLKEM768\nDONE"
+    },
+    {
+      "group_offered": "SecP384r1MLKEM1024",
+      "negotiated_group": "SecP384r1MLKEM1024",
+      "tls_version": "TLSv1.3",
+      "result": "negotiated",
+      "exit_code": 0,
+      "diagnostic": "Connecting to 192.124.249.71\nCONNECTION ESTABLISHED\nProtocol version: TLSv1.3\nCiphersuite: TLS_AES_256_GCM_SHA384\nPeer certificate: CN=bgdb.eu\nHash used: SHA256\nSignature type: rsa_pss_rsae_sha256\nVerification: OK\nVerified peername: bgdb.eu\nNegotiated TLS1.3 group: SecP384r1MLKEM1024\nDONE"
+    },
+    {
+      "group_offered": "MLKEM768",
+      "negotiated_group": null,
+      "tls_version": null,
+      "result": "not_negotiated",
+      "exit_code": 1,
+      "diagnostic": "Connecting to 192.124.249.71\n288B17D6727F0000:error:0A000410:SSL routines:ssl3_read_bytes:ssl/tls alert handshake failure:ssl/record/rec_layer_s3.c:918:SSL alert number 40"
+    },
+    {
+      "group_offered": "MLKEM1024",
+      "negotiated_group": null,
+      "tls_version": null,
+      "result": "not_negotiated",
+      "exit_code": 1,
+      "diagnostic": "Connecting to 192.124.249.71\n281B433FE67F0000:error:0A000410:SSL routines:ssl3_read_bytes:ssl/tls alert handshake failure:ssl/record/rec_layer_s3.c:918:SSL alert number 40"
+    }
+  ],
+  "scope": "Public HTTPS listener for this hostname; results may vary by CDN edge.",
+  "interpretation": "Evidence is an actual TLS 1.3 key exchange negotiated for a named ML-KEM group. A negative handshake does not certify absence of PQ support at all endpoints. No photonic/QKD assessment, signature-algorithm audit, independent certification, or A+/letter grade is provided."
+}

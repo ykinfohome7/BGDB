@@ -1,0 +1,122 @@
+[
+  {
+    "request_id": "1d7b406c-cc6c-44a5-b163-9e750ca909b8",
+    "host": "bgspiritllc.com",
+    "phase": "cached-lookup",
+    "attempt": 1,
+    "sent_at_utc": "2026-10-23T16:59:57.353645+00:00",
+    "method": "GET",
+    "api": "SSL Labs v4 analyze",
+    "parameters": {
+      "fromCache": "on"
+    },
+    "send": "sent",
+    "receive": "received",
+    "http_status": 200,
+    "elapsed_ms": 382,
+    "error": null,
+    "retry": false,
+    "api_status": "READY",
+    "received_at_utc": "2026-10-23T16:59:57.735740+00:00"
+  },
+  {
+    "request_id": "0f1c4b52-b68f-42d9-ab80-ac8e831f51c1",
+    "host": "bgdb.eu",
+    "phase": "cached-lookup",
+    "attempt": 1,
+    "sent_at_utc": "2026-10-23T17:00:03.347684+00:00",
+    "method": "GET",
+    "api": "SSL Labs v4 analyze",
+    "parameters": {
+      "fromCache": "on"
+    },
+    "send": "sent",
+    "receive": "received",
+    "http_status": 200,
+    "elapsed_ms": 859,
+    "error": null,
+    "retry": false,
+    "api_status": "READY",
+    "received_at_utc": "2026-10-23T17:00:04.206996+00:00"
+  },
+  {
+    "request_id": "542bd424-8319-4117-b992-023b609568ef",
+    "host": "google.com",
+    "phase": "cached-lookup",
+    "attempt": 1,
+    "sent_at_utc": "2026-10-23T17:00:04.249279+00:00",
+    "method": "GET",
+    "api": "SSL Labs v4 analyze",
+    "parameters": {
+      "fromCache": "on"
+    },
+    "send": "sent",
+    "receive": "received",
+    "http_status": 200,
+    "elapsed_ms": 1007,
+    "error": null,
+    "retry": false,
+    "api_status": "READY",
+    "received_at_utc": "2026-10-23T17:00:05.256613+00:00"
+  },
+  {
+    "request_id": "4950976e-f56b-4e86-8082-04915acbe80c",
+    "host": "yahoo.com",
+    "phase": "cached-lookup",
+    "attempt": 1,
+    "sent_at_utc": "2026-10-23T17:00:05.345560+00:00",
+    "method": "GET",
+    "api": "SSL Labs v4 analyze",
+    "parameters": {
+      "fromCache": "on"
+    },
+    "send": "sent",
+    "receive": "received",
+    "http_status": 200,
+    "elapsed_ms": 784,
+    "error": null,
+    "retry": false,
+    "api_status": "READY",
+    "received_at_utc": "2026-10-23T17:00:06.130324+00:00"
+  },
+  {
+    "request_id": "faf7e9ab-94c8-48fb-a323-96209c20adfa",
+    "host": "meta.com",
+    "phase": "cached-lookup",
+    "attempt": 1,
+    "sent_at_utc": "2026-10-23T17:00:06.242798+00:00",
+    "method": "GET",
+    "api": "SSL Labs v4 analyze",
+    "parameters": {
+      "fromCache": "on"
+    },
+    "send": "sent",
+    "receive": "received",
+    "http_status": 200,
+    "elapsed_ms": 377,
+    "error": null,
+    "retry": false,
+    "api_status": "READY",
+    "received_at_utc": "2026-10-23T17:00:06.620001+00:00"
+  },
+  {
+    "request_id": "e0238d1c-7aa4-479a-9996-e3967d2866ef",
+    "host": "money.bg",
+    "phase": "cached-lookup",
+    "attempt": 1,
+    "sent_at_utc": "2026-10-23T17:00:07.413293+00:00",
+    "method": "GET",
+    "api": "SSL Labs v4 analyze",
+    "parameters": {
+      "fromCache": "on"
+    },
+    "send": "sent",
+    "receive": "received",
+    "http_status": 200,
+    "elapsed_ms": 267,
+    "error": null,
+    "retry": false,
+    "api_status": "DNS",
+    "received_at_utc": "2026-10-23T17:00:07.680307+00:00"
+  }
+]
