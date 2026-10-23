@@ -1,0 +1,650 @@
+[
+  {
+    "host": "bgspiritllc.com",
+    "source": "SSL Labs API v4",
+    "mode": "cached",
+    "retrieved_at_utc": "2026-10-23T16:20:18.821287+00:00",
+    "testTime": 1792770528789,
+    "status": "READY",
+    "statusMessage": null,
+    "endpoints": [
+      {
+        "ipAddress": "192.124.249.11",
+        "grade": "A",
+        "gradeTrustIgnored": "A",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "forwardSecrecy": 4,
+        "poodle": false,
+        "heartbleed": false
+      }
+    ]
+  },
+  {
+    "host": "bgdb.eu",
+    "source": "SSL Labs API v4",
+    "mode": "initiated-own-scan",
+    "retrieved_at_utc": "2026-10-23T16:21:20.681554+00:00",
+    "testTime": 1792772479578,
+    "status": "READY",
+    "statusMessage": null,
+    "endpoints": [
+      {
+        "ipAddress": "192.124.249.71",
+        "grade": "A",
+        "gradeTrustIgnored": "A",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "forwardSecrecy": 4,
+        "poodle": false,
+        "heartbleed": false
+      }
+    ]
+  },
+  {
+    "host": "google.com",
+    "source": "SSL Labs API v4",
+    "mode": "cached",
+    "retrieved_at_utc": "2026-10-23T16:21:21.294080+00:00",
+    "testTime": 1792767181196,
+    "status": "READY",
+    "statusMessage": null,
+    "endpoints": [
+      {
+        "ipAddress": "172.217.75.139",
+        "grade": "B",
+        "gradeTrustIgnored": "B",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 769,
+            "name": "TLS",
+            "version": "1.0"
+          },
+          {
+            "id": 770,
+            "name": "TLS",
+            "version": "1.1"
+          },
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "forwardSecrecy": 2,
+        "poodle": false,
+        "heartbleed": false
+      },
+      {
+        "ipAddress": "172.217.75.138",
+        "grade": "B",
+        "gradeTrustIgnored": "B",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 769,
+            "name": "TLS",
+            "version": "1.0"
+          },
+          {
+            "id": 770,
+            "name": "TLS",
+            "version": "1.1"
+          },
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "forwardSecrecy": 2,
+        "poodle": false,
+        "heartbleed": false
+      },
+      {
+        "ipAddress": "2607:f8b0:4023:200b:0:0:0:64",
+        "grade": "B",
+        "gradeTrustIgnored": "B",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 769,
+            "name": "TLS",
+            "version": "1.0"
+          },
+          {
+            "id": 770,
+            "name": "TLS",
+            "version": "1.1"
+          },
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "forwardSecrecy": 2,
+        "poodle": false,
+        "heartbleed": false
+      },
+      {
+        "ipAddress": "172.217.75.113",
+        "grade": "B",
+        "gradeTrustIgnored": "B",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 769,
+            "name": "TLS",
+            "version": "1.0"
+          },
+          {
+            "id": 770,
+            "name": "TLS",
+            "version": "1.1"
+          },
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "forwardSecrecy": 2,
+        "poodle": false,
+        "heartbleed": false
+      },
+      {
+        "ipAddress": "2607:f8b0:4023:200b:0:0:0:65",
+        "grade": "B",
+        "gradeTrustIgnored": "B",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 769,
+            "name": "TLS",
+            "version": "1.0"
+          },
+          {
+            "id": 770,
+            "name": "TLS",
+            "version": "1.1"
+          },
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "forwardSecrecy": 2,
+        "poodle": false,
+        "heartbleed": false
+      },
+      {
+        "ipAddress": "2607:f8b0:4023:200b:0:0:0:66",
+        "grade": "B",
+        "gradeTrustIgnored": "B",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 769,
+            "name": "TLS",
+            "version": "1.0"
+          },
+          {
+            "id": 770,
+            "name": "TLS",
+            "version": "1.1"
+          },
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "forwardSecrecy": 2,
+        "poodle": false,
+        "heartbleed": false
+      },
+      {
+        "ipAddress": "172.217.75.101",
+        "grade": "B",
+        "gradeTrustIgnored": "B",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 769,
+            "name": "TLS",
+            "version": "1.0"
+          },
+          {
+            "id": 770,
+            "name": "TLS",
+            "version": "1.1"
+          },
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "forwardSecrecy": 2,
+        "poodle": false,
+        "heartbleed": false
+      },
+      {
+        "ipAddress": "172.217.75.100",
+        "grade": "B",
+        "gradeTrustIgnored": "B",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 769,
+            "name": "TLS",
+            "version": "1.0"
+          },
+          {
+            "id": 770,
+            "name": "TLS",
+            "version": "1.1"
+          },
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "forwardSecrecy": 2,
+        "poodle": false,
+        "heartbleed": false
+      },
+      {
+        "ipAddress": "172.217.75.102",
+        "grade": "B",
+        "gradeTrustIgnored": "B",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 769,
+            "name": "TLS",
+            "version": "1.0"
+          },
+          {
+            "id": 770,
+            "name": "TLS",
+            "version": "1.1"
+          },
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "forwardSecrecy": 2,
+        "poodle": false,
+        "heartbleed": false
+      },
+      {
+        "ipAddress": "2607:f8b0:4023:200b:0:0:0:8a",
+        "grade": "B",
+        "gradeTrustIgnored": "B",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 769,
+            "name": "TLS",
+            "version": "1.0"
+          },
+          {
+            "id": 770,
+            "name": "TLS",
+            "version": "1.1"
+          },
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "forwardSecrecy": 2,
+        "poodle": false,
+        "heartbleed": false
+      }
+    ]
+  },
+  {
+    "host": "yahoo.com",
+    "source": "SSL Labs API v4",
+    "mode": "cached",
+    "retrieved_at_utc": "2026-10-23T16:21:22.026718+00:00",
+    "testTime": 1792724998306,
+    "status": "READY",
+    "statusMessage": null,
+    "endpoints": [
+      {
+        "ipAddress": "2001:4998:24:120d:0:0:1:1",
+        "grade": "A+",
+        "gradeTrustIgnored": "A+",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "forwardSecrecy": 4,
+        "poodle": false,
+        "heartbleed": false
+      },
+      {
+        "ipAddress": "74.6.231.20",
+        "grade": "A+",
+        "gradeTrustIgnored": "A+",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "forwardSecrecy": 4,
+        "poodle": false,
+        "heartbleed": false
+      },
+      {
+        "ipAddress": "74.6.231.21",
+        "grade": "A+",
+        "gradeTrustIgnored": "A+",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "forwardSecrecy": 4,
+        "poodle": false,
+        "heartbleed": false
+      },
+      {
+        "ipAddress": "2001:4998:24:120d:0:0:1:0",
+        "grade": "A+",
+        "gradeTrustIgnored": "A+",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "forwardSecrecy": 4,
+        "poodle": false,
+        "heartbleed": false
+      },
+      {
+        "ipAddress": "2001:4998:44:3507:0:0:0:8001",
+        "grade": "A+",
+        "gradeTrustIgnored": "A+",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "forwardSecrecy": 4,
+        "poodle": false,
+        "heartbleed": false
+      },
+      {
+        "ipAddress": "2001:4998:124:1507:0:0:0:f001",
+        "grade": "A+",
+        "gradeTrustIgnored": "A+",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "forwardSecrecy": 4,
+        "poodle": false,
+        "heartbleed": false
+      },
+      {
+        "ipAddress": "98.137.11.163",
+        "grade": "A+",
+        "gradeTrustIgnored": "A+",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "forwardSecrecy": 4,
+        "poodle": false,
+        "heartbleed": false
+      },
+      {
+        "ipAddress": "2001:4998:124:1507:0:0:0:f000",
+        "grade": "A+",
+        "gradeTrustIgnored": "A+",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "forwardSecrecy": 4,
+        "poodle": false,
+        "heartbleed": false
+      },
+      {
+        "ipAddress": "2001:4998:44:3507:0:0:0:8000",
+        "grade": "A+",
+        "gradeTrustIgnored": "A+",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "forwardSecrecy": 4,
+        "poodle": false,
+        "heartbleed": false
+      },
+      {
+        "ipAddress": "74.6.143.26",
+        "grade": "A+",
+        "gradeTrustIgnored": "A+",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "forwardSecrecy": 4,
+        "poodle": false,
+        "heartbleed": false
+      },
+      {
+        "ipAddress": "98.137.11.164",
+        "grade": "A+",
+        "gradeTrustIgnored": "A+",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "forwardSecrecy": 4,
+        "poodle": false,
+        "heartbleed": false
+      },
+      {
+        "ipAddress": "74.6.143.25",
+        "grade": "A+",
+        "gradeTrustIgnored": "A+",
+        "statusMessage": "Ready",
+        "protocols": [
+          {
+            "id": 771,
+            "name": "TLS",
+            "version": "1.2"
+          },
+          {
+            "id": 772,
+            "name": "TLS",
+            "version": "1.3"
+          }
+        ],
+        "forwardSecrecy": 4,
+        "poodle": false,
+        "heartbleed": false
+      }
+    ]
+  }
+]
