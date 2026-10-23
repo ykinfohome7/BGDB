@@ -1,0 +1,7 @@
+{
+  "checked_at_utc": "2026-10-23T16:17:00.884371+00:00",
+  "http_status": "200",
+  "status": "success",
+  "message": "User successfully registered",
+  "service": "SSL Labs API v4"
+}
