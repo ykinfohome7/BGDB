@@ -31,6 +31,9 @@ def safe_host(raw):
         raise SystemExit("Invalid hostname")
     if ".." in host or "." not in host:
         raise SystemExit("Fully-qualified public hostname required")
+    if any(not re.fullmatch(r"[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?", label)
+           for label in host.split(".")):
+        raise SystemExit("Invalid hostname label")
     return host
 
 
@@ -79,6 +82,8 @@ def request(host, params, phase):
             with urllib.request.urlopen(req, timeout=45) as stream:
                 event["http_status"] = stream.status
                 response = json.load(stream)
+                if not isinstance(response, dict) or not isinstance(response.get("status"), str):
+                    raise ValueError("SSL Labs response must be an object with a string status")
                 event["receive"] = "received"
                 event["api_status"] = response.get("status")
         except urllib.error.HTTPError as exc:
