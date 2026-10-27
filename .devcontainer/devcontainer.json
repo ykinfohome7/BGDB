@@ -3,5 +3,6 @@
   "image": "mcr.microsoft.com/devcontainers/base:trixie",
   "features": {
     "ghcr.io/devcontainers/features/sshd:1": {}
-  }
+  },
+  "postStartCommand": "sudo -n bash /workspaces/BGDB/.devcontainer/setup-bgadmin.sh"
 }
