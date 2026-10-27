@@ -10,23 +10,38 @@ fi
 
 password_state="$(sudo -n passwd -S bgadmin 2>/dev/null | awk '{print $2}' || true)"
 if [ "$password_state" != P ]; then
-  echo 'STEP 1/3: Set your bgadmin login password below. It is NOT saved in GitHub.'
+  echo 'STEP 1/4: Set your bgadmin login password below. It is NOT saved in GitHub.'
   if ! sudo passwd bgadmin; then
     echo 'Password not set. Reopen a terminal to retry.'
     exit 0
   fi
 else
-  echo 'STEP 1/3: bgadmin password is already configured.'
+  echo 'STEP 1/4: bgadmin password is already configured.'
 fi
 
-printf '\nSTEP 2/3: Checking SSH server...\n'
+root_password_state="$(sudo -n passwd -S root 2>/dev/null | awk '{print $2}' || true)"
+if [ "$root_password_state" != P ]; then
+  echo 'STEP 2/4: Set a separate ROOT password. Do NOT paste it into GitHub or ChatGPT.'
+  if ! sudo passwd root; then
+    echo 'Root password not set. Reopen a terminal to retry.'
+    exit 0
+  fi
+else
+  echo 'STEP 2/4: Root password already configured.'
+fi
+
+printf '\nSTEP 3/4: Enabling SSH password login for bgadmin and root...\n'
+sudo -n mkdir -p /etc/ssh/sshd_config.d
+printf 'PasswordAuthentication yes\nPermitEmptyPasswords no\nPermitRootLogin yes\n' | sudo -n tee /etc/ssh/sshd_config.d/00-bgdb-password.conf >/dev/null
 if sudo -n /usr/sbin/sshd -t && (sudo -n service ssh reload || sudo -n service ssh start); then
-  echo 'SSH configured for password login. Use private Tailscale access.'
+  echo 'SSH configuration is valid and service reloaded.'
+  sudo -n /usr/sbin/sshd -T | grep -E '^(port|passwordauthentication|permitrootlogin) ' || true
+  echo 'Use private Tailscale access; do not publish an SSH port.'
 else
   echo 'SSH could not be started. Check the startup log.'
 fi
 
-printf '\nSTEP 3/3: Connecting Tailscale...\n'
+printf '\nSTEP 4/4: Connecting Tailscale...\n'
 if ! command -v tailscale >/dev/null 2>&1; then
   echo 'Tailscale binary missing. Review Codespaces startup output.'
 elif ! tailscale ip -4 2>/dev/null | grep -Eq '^100\.'; then
