@@ -7,7 +7,16 @@ printf 'Codespace name: %s\n' "$cs"
 printf 'Container IP (internal only): '
 hostname -I 2>/dev/null || printf 'unavailable\n'
 printf 'Web editor: https://%s.github.dev\n' "$cs"
-printf 'SSH transport: authenticated GitHub CLI (not direct public TCP)\n'
+printf 'SSH transport: private GitHub CLI tunnel or Tailscale\n'
+if command -v tailscale >/dev/null 2>&1; then
+  ip="$(tailscale ip -4 2>/dev/null | head -n1 || true)"
+  if [ -n "$ip" ]; then
+    printf 'Tailscale IP (private): %s\n' "$ip"
+    printf 'iPhone Termius: Host=%s  Port=22  User=bgadmin  Password=your chosen password\n' "$ip"
+  else
+    printf 'Tailscale not connected yet: run tailscale up and authorize it.\n'
+  fi
+fi
 if [ "$cs" != unknown ]; then
   printf '\nOn the OTHER computer/terminal (once: gh auth login):\n'
   printf '  gh codespace ssh -c %s\n' "$cs"
