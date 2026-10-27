@@ -11,6 +11,15 @@ printf 'Container IP (internal only): '
 hostname -I 2>/dev/null || printf 'unavailable\n'
 printf 'Web editor: https://%s.github.dev\n' "$cs"
 printf 'SSH transport: private GitHub CLI tunnel or Tailscale\n'
+printf 'Claude Code project: /workspaces/BGDB\n'
+if [ -x /home/vscode/.local/bin/claude ]; then
+  printf 'Claude Code: installed (vscode profile); run as vscode\n'
+elif command -v claude >/dev/null 2>&1; then
+  printf 'Claude Code: installed and on PATH\n'
+else
+  printf 'Claude Code: pending container Rebuild or feature installation\n'
+fi
+printf 'Claude Code login/start: sudo -iu vscode ; cd /workspaces/BGDB ; claude\n'
 if command -v tailscale >/dev/null 2>&1; then
   ip="$(tailscale ip -4 2>/dev/null | head -n1 || true)"
   if [ -n "$ip" ]; then
