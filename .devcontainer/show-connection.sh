@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # Show Codespaces identity and safe private SSH connection commands.
 cs="${CODESPACE_NAME:-unknown}"
+ssh_port="$(sudo -n /usr/sbin/sshd -T 2>/dev/null | awk '$1 == \"port\" {print $2; exit}' || true)"
+ssh_port="${ssh_port:-2222}"
+printf 'Detected SSH port: %s\\n' "$ssh_port"
 printf '\n========== BGDB REMOTE ACCESS ==========\n'
 printf 'Login user: bgadmin (sudo administrator)\n'
 printf 'Codespace name: %s\n' "$cs"
@@ -12,7 +15,7 @@ if command -v tailscale >/dev/null 2>&1; then
   ip="$(tailscale ip -4 2>/dev/null | head -n1 || true)"
   if [ -n "$ip" ]; then
     printf 'Tailscale IP (private): %s\n' "$ip"
-    printf 'iPhone Termius: Host=%s  Port=22  User=bgadmin  Password=your chosen password\n' "$ip"
+    printf 'iPhone Termius: Host=%s  Port=%s  User=bgadmin  Password=your chosen password\n' "$ip" "$ssh_port"
   else
     printf 'Tailscale not connected yet: run tailscale up and authorize it.\n'
   fi
