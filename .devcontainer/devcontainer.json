@@ -2,7 +2,11 @@
   "name": "BGDB Debian 13 Trixie",
   "image": "mcr.microsoft.com/devcontainers/base:trixie",
   "features": {
-    "ghcr.io/devcontainers/features/sshd:1": {}
+    "ghcr.io/devcontainers/features/sshd:1": {},
+    "ghcr.io/tailscale/codespace/tailscale": {}
   },
-  "postStartCommand": "sudo -n bash /workspaces/BGDB/.devcontainer/setup-bgadmin.sh"
+  "postStartCommand": "sudo -n bash /workspaces/BGDB/.devcontainer/setup-bgadmin.sh",
+  "runArgs": [
+    "--device=/dev/net/tun"
+  ]
 }
