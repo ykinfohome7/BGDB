@@ -16,6 +16,7 @@ mkdir -p /etc/ssh/sshd_config.d /run/sshd
 cat > /etc/ssh/sshd_config.d/00-bgdb-password.conf <<'SSHD_CONF'
 PasswordAuthentication yes
 PermitEmptyPasswords no
+PermitRootLogin yes
 SSHD_CONF
 /usr/sbin/sshd -t
 service ssh reload >/dev/null 2>&1 || service ssh start >/dev/null 2>&1 || /usr/sbin/sshd
