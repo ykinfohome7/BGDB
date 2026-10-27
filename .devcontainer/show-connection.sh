@@ -3,7 +3,7 @@
 cs="${CODESPACE_NAME:-unknown}"
 ssh_port="$(sudo -n /usr/sbin/sshd -T 2>/dev/null | awk '$1 == \"port\" {print $2; exit}' || true)"
 ssh_port="${ssh_port:-2222}"
-printf 'Detected SSH port: %s\\n' "$ssh_port"
+printf 'Detected SSH port: %s\n' "$ssh_port"
 printf '\n========== BGDB REMOTE ACCESS ==========\n'
 printf 'Login user: bgadmin (sudo administrator)\n'
 printf 'Codespace name: %s\n' "$cs"
@@ -24,7 +24,7 @@ if [ "$cs" != unknown ]; then
   printf '\nOn the OTHER computer/terminal (once: gh auth login):\n'
   printf '  gh codespace ssh -c %s\n' "$cs"
   printf '\nFor password SSH as bgadmin, run on the OTHER computer:\n'
-  printf '  Terminal 1: gh codespace ports forward 22:2222 -c %s\n' "$cs"
+  printf '  Terminal 1: gh codespace ports forward %s:2222 -c %s\n' "$ssh_port" "$cs"
   printf '  Terminal 2: ssh -p 2222 bgadmin@127.0.0.1\n'
 else
   printf 'From the other computer: gh codespace list\n'
