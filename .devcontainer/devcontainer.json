@@ -3,10 +3,18 @@
   "image": "mcr.microsoft.com/devcontainers/base:trixie",
   "features": {
     "ghcr.io/devcontainers/features/sshd:1": {},
-    "ghcr.io/tailscale/codespace/tailscale": {}
+    "ghcr.io/tailscale/codespace/tailscale": {},
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
   },
   "postStartCommand": "sudo -n bash /workspaces/BGDB/.devcontainer/setup-bgadmin.sh",
   "runArgs": [
     "--device=/dev/net/tun"
-  ]
+  ],
+  "remoteUser": "vscode",
+  "mounts": [
+    "source=bgdb-claude-config-${devcontainerId},target=/home/vscode/.claude,type=volume"
+  ],
+  "containerEnv": {
+    "CLAUDE_CONFIG_DIR": "/home/vscode/.claude"
+  }
 }
