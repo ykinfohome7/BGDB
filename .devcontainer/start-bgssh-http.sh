@@ -78,8 +78,8 @@ owned_server_pid() {
   [[ "$(stat -c %u "/proc/$p")" == "$(id -u)" ]] || return 1
   # The process is the exact Python MCP backend we launched; never kill
   # unrelated processes based solely on a PID or port number.
-  tr '\\0' ' ' < "/proc/$p/cmdline" | grep -Fq 'bgdb-ssh-connector/plugins/ssh-connector/server.py' || return 1
-  tr '\\0' ' ' < "/proc/$p/cmdline" | grep -Fq -- '--http' || return 1
+  tr '\0' ' ' < "/proc/$p/cmdline" | grep -Fq 'bgdb-ssh-connector/plugins/ssh-connector/server.py' || return 1
+  tr '\0' ' ' < "/proc/$p/cmdline" | grep -Fq -- '--http' || return 1
   kill -0 "$p" 2>/dev/null
 }
 
@@ -139,7 +139,7 @@ for attempt in $(seq 1 90); do
   health="$(curl -fsS --connect-timeout 1 --max-time 2 "$URL/health" 2>/dev/null || true)"
   code="$(curl -sS --connect-timeout 1 --max-time 2 -X POST -o /dev/null -w '%{http_code}' "$URL/mcp" 2>/dev/null || true)"
   if [[ "$health" == "ok" && "$code" == "401" ]]; then
-    printf '%s\\n' "$CURRENT_SHA" > "$SHA_FILE"
+    printf '%s\n' "$CURRENT_SHA" > "$SHA_FILE"
     echo "[BGSSH] MCP version $CURRENT_VERSION running on 127.0.0.1:$PORT; unauthenticated POST=401."
     echo "[BGSSH] GitHub Ports tab: forward 8765, keep PRIVATE until authentication is verified."
     echo "[BGSSH] HTTPS address (only after forwarding): https://${CODESPACE_NAME:-CODESPACE_NAME}-8765.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN:-app.github.dev}"
