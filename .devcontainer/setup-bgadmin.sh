@@ -13,20 +13,10 @@ if ! id bgadmin >/dev/null 2>&1; then
 fi
 usermod -aG sudo,adm,root,users bgadmin
 
-# Debian 13 image may be recreated. Only install packages if missing.
-if [[ ! -x /usr/sbin/sshd ]] || ! command -v ssh-keygen >/dev/null 2>&1; then
-  apt-get update
-  apt-get install -y --no-install-recommends openssh-server
-fi
-# A minimal or damaged Debian 13 image may lack Python's standard library.
-# Only repair when isolated Python cannot import the standard modules needed
-# for the BGSSH virtualenv. Do not alter existing venvs, credentials or PATH.
-if ! /usr/bin/python3 -I -c 'import secrets, venv, ssl' >/dev/null 2>&1; then
-  echo "[BGDB] Repairing Debian 13 Python 3.13 stdlib/venv packages..."
-  apt-get update
-  apt-get install -y --no-install-recommends --reinstall libpython3.13-stdlib python3.13-venv
-  /usr/bin/python3 -I -c 'import secrets, venv, ssl; print("Debian Python stdlib OK")'
-fi
+# Recheck packages on EVERY Codespace start. Missing Debian 13 packages are
+# installed idempotently; an incomplete Python stdlib is repaired as needed.
+# The same script runs once in postCreateCommand on initial build.
+bash /workspaces/BGDB/.devcontainer/install-debian-deps.sh
 
 mkdir -p /etc/ssh/sshd_config.d /run/sshd
 
