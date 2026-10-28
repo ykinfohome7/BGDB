@@ -58,6 +58,9 @@ jobs:
           http=Path(".devcontainer/start-bgssh-http.sh").read_text()
           assert "--host 127.0.0.1 --port 8765" in http
           assert ".codex/bgssh-http-token" in http
+          assert "head -c 32 /dev/urandom" in http
+          assert '[[ ! -s "$TOKEN_FILE" ]]' in http
+          assert "import secrets" not in http
           assert "sudo -n chown vscode:vscode" in http
           assert '[[ -L "$HOME/.codex" || -L "$TOKEN_FILE" ]]' in http
           assert "chmod 600" in http
