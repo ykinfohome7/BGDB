@@ -74,13 +74,23 @@ if [[ "$code" != "000" && -n "$code" ]]; then
   exit 1
 fi
 
+# Validate the system Python before launching the connector.
+# Python -I ignores PYTHONPATH/PYTHONHOME and user site packages.
+if ! /usr/bin/python3 -I -c 'import secrets, venv, ssl' >/dev/null 2>&1; then
+  echo "[BGSSH] Python 3.13 standard library/venv is missing or damaged." >&2
+  echo "[BGSSH] Repair in Debian: sudo apt-get update && sudo apt-get install -y --reinstall libpython3.13-stdlib python3.13-venv" >&2
+  exit 1
+fi
+
 # Do NOT put the token on the command line, in public logs, or in the repository.
 # Running as vscode provides the local SSH key and its pinned known_hosts file.
 nohup bash -c '
   set -Eeuo pipefail
   export SSH_CONNECTOR_TOKEN="$(cat "$HOME/.codex/bgssh-http-token")"
   export SSH_CONNECTOR_CONFIG="$HOME/.ssh-connector/servers.yaml"
-  exec "$HOME/.local/share/bgdb-ssh-connector/plugins/ssh-connector/bin/run.sh" --http --host 127.0.0.1 --port 8765
+  # GitHub contents uploads may not carry the executable mode bit.
+  # Invoke through sh; never require chmod on the cloned repository.
+  exec sh "$HOME/.local/share/bgdb-ssh-connector/plugins/ssh-connector/bin/run.sh" --http --host 127.0.0.1 --port 8765
 ' > "$LOG" 2>&1 </dev/null &
 echo "$!" > "$PIDFILE"
 
