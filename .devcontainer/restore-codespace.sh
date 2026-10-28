@@ -43,6 +43,11 @@ fi
 run_step "Restore local BGSSH MCP for Claude Code and Codex" \
   bash "$ROOT/.devcontainer/restore-bgssh-mcp.sh"
 
+# Start the separately authenticated HTTP MCP endpoint on localhost only.
+# GitHub Codespaces forwards port 8765 privately by default; never make it public here.
+run_step "Start private authenticated BGSSH MCP HTTP (127.0.0.1:8765)" \
+  bash "$ROOT/.devcontainer/start-bgssh-http.sh"
+
 if tailscale ip -4 >/dev/null 2>&1; then
   echo "[BGDB] OK: Tailscale private IPv4 present."
 else
