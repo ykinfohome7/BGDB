@@ -29,5 +29,15 @@
       ]
     }
   },
-  "postCreateCommand": "sudo -n bash /workspaces/BGDB/.devcontainer/install-debian-deps.sh"
+  "postCreateCommand": "sudo -n bash /workspaces/BGDB/.devcontainer/install-debian-deps.sh",
+  "forwardPorts": [
+    8765
+  ],
+  "portsAttributes": {
+    "8765": {
+      "label": "BGSSH MCP (private)",
+      "onAutoForward": "notify",
+      "protocol": "http"
+    }
+  }
 }
