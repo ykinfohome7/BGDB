@@ -68,9 +68,15 @@ else
   # setup handles Tailscale user authorization.
 fi
 
-# AI-EMDS / Paperclip е преместен към отделен Debian сървър.
-# Този BGDB Codespace обслужва само KSSH, SSH, Tailscale и MCP.
-# Не стартирай Paperclip или автоматична AI-EMDS инсталация тук.
+# AI_EMDS_BOOTSTRAP: частен Paperclip след възстановения KSSH.
+# Стартира във фонов режим, за да не забавя или блокира SSH/VS Code.
+AI_EMDS_LOG="$HOME/.cache/bgdb/ai-emds-restore.log"
+if [[ -r "$ROOT/.devcontainer/restore-ai-emds.sh" ]]; then
+  touch "$AI_EMDS_LOG"
+  chmod 600 "$AI_EMDS_LOG"
+  nohup bash "$ROOT/.devcontainer/restore-ai-emds.sh" >>"$AI_EMDS_LOG" 2>&1 </dev/null &
+  echo "[BGDB] AI-EMDS/Paperclip bootstrap queued (private port 3100)."
+fi
 
 if [[ "$failed" -ne 0 ]]; then
   echo "[BGDB] One or more restore steps need attention. Inspect: $LOG"
