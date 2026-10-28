@@ -40,6 +40,19 @@ node -e 'const [a,b]=process.versions.node.split(".").map(Number); if(a<24||(a==
 }
 command -v corepack >/dev/null || { echo "[AI-EMDS] Corepack missing" >&2; exit 1; }
 
+# Изолира pnpm 9.15.4 чрез директния Corepack кеш, без глобални промени.
+# Първо зарежда точната версия, после всички вложени pnpm команди използват нея.
+corepack pnpm --version >/dev/null
+PINNED_PNPM="$HOME/.cache/node/corepack/v1/pnpm/9.15.4/bin/pnpm.cjs"
+[[ -f "$PINNED_PNPM" ]] || {
+  echo "[AI-EMDS] The pinned pnpm 9.15.4 binary is unavailable." >&2
+  exit 1
+}
+mkdir -p -m 700 "$STATE/bin"
+printf '#!/usr/bin/env bash\nexec node "%s" "$@"\n' "$PINNED_PNPM" > "$STATE/bin/pnpm"
+chmod 700 "$STATE/bin/pnpm"
+export PATH="$STATE/bin:$PATH"
+
 cd "$PAPERCLIP"
 # Corepack чете packageManager и използва фиксирания pnpm 9.15.4.
 locksha="$(sha256sum pnpm-lock.yaml | cut -d' ' -f1)"
@@ -50,6 +63,22 @@ if [[ ! -f node_modules/.modules.yaml || "$locksha" != "$oldsha" ]]; then
   printf '%s\n' "$locksha" > "$STATE/installed-lock.sha256"
 else
   echo "[AI-EMDS] Paperclip dependencies already installed."
+fi
+
+# При Git submodule Paperclip изисква отделна worktree instance конфигурация.
+# Създава локално изолирано празно състояние само при първо изпълнение.
+if [[ ! -s .paperclip/.env ]]; then
+  echo "[AI-EMDS] Initializing isolated Paperclip worktree (no copy of old data)."
+  pnpm paperclipai worktree init --empty --server-port 3100 --name BGDB-AI-EMDS
+fi
+
+# Postgres не трябва да създава lock файлове в обща /tmp без права за писане.
+# При налична инстанция използвай частна Unix socket директория на bgadmin.
+DB_CONF="$HOME/.paperclip-worktrees/instances/bgdb-ai-emds/db/postgresql.conf"
+SOCKET_DIR="$STATE/pgsocket"
+mkdir -p -m 700 "$SOCKET_DIR"
+if [[ -f "$DB_CONF" ]] && ! grep -Fq '# BGDB_AI_EMDS_PRIVATE_SOCKET' "$DB_CONF"; then
+  printf '\n# BGDB_AI_EMDS_PRIVATE_SOCKET\nunix_socket_directories = %s\n' "'$SOCKET_DIR'" >> "$DB_CONF"
 fi
 
 # Не спирай или заменяй неизвестен процес на порт 3100.
