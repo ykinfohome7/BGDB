@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # BGDB Codespaces / Debian 13: explicit baseline packages for SSH, BGSSH and Python MCP.
 # Runs after container creation and verifies/repairs the installation on every start.
-# Idempotent: apt-get is used only for absent packages or a broken Python stdlib.
+# Missing dependencies are installed when needed; safe full-upgrade runs on each boot.
 set -Eeuo pipefail
 export DEBIAN_FRONTEND=noninteractive
 
@@ -44,29 +44,13 @@ fi
 /usr/bin/python3 -I -c 'import secrets, venv, ssl, ensurepip; print("[BGDB] Python 3.13 stdlib and venv: OK")'
 echo "[BGDB] Debian dependencies: OK."
 
-# Automatic full-upgrade (apt-get dist-upgrade is the noninteractive equivalent
-# of "sudo apt full-upgrade"). Check at most every 24 hours, including first
-# postCreate run. Never allow automatic package removals on an SSH Codespace.
-# Keep the success stamp inside the container so it resets after Rebuild.
-UPGRADE_DIR="/var/cache/bgdb"
-UPGRADE_STAMP="$UPGRADE_DIR/full-upgrade.last-success"
-UPGRADE_INTERVAL_SECONDS=86400
-mkdir -p "$UPGRADE_DIR"
-now="$(date +%s)"
-last=0
-if [[ -f "$UPGRADE_STAMP" ]]; then
-  last="$(stat -c %Y "$UPGRADE_STAMP" 2>/dev/null || echo 0)"
-fi
-if (( now - last >= UPGRADE_INTERVAL_SECONDS || now < last )); then
-  echo "[BGDB] Running apt update and safe full-upgrade (no package removals)."
-  if apt-get update && apt-get -y --no-remove dist-upgrade; then
-    touch "$UPGRADE_STAMP"
-    echo "[BGDB] Full-upgrade: OK."
-  else
-    # SSH/Tailscale/MCP restoration must not be blocked by an unattended
-    # package-manager issue. Retry on the next Codespace start.
-    echo "[BGDB] WARNING: Full-upgrade needs manual attention; see apt output." >&2
-  fi
+# The Debian 'apt full-upgrade' operation is called 'apt-get dist-upgrade'.
+# Run it on every Codespace start and after container creation, as requested.
+# --no-remove protects SSH/Tailscale and other installed tools from unattended removals.
+# A package-manager error is reported, but does not stop SSH/MCP restoration.
+echo "[BGDB] Running apt update + safe full-upgrade on every start."
+if apt-get update && apt-get -y --no-remove dist-upgrade; then
+  echo "[BGDB] Full-upgrade: OK."
 else
-  echo "[BGDB] Full-upgrade already checked within the past 24 hours."
+  echo "[BGDB] WARNING: Full-upgrade requires manual attention; inspect apt output." >&2
 fi
