@@ -86,6 +86,8 @@ fi
 # Running as vscode provides the local SSH key and its pinned known_hosts file.
 nohup bash -c '
   set -Eeuo pipefail
+  # Avoid Python import errors caused by inherited PYTHONHOME/PYTHONPATH.
+  unset PYTHONHOME PYTHONPATH PYTHONSTARTUP
   export SSH_CONNECTOR_TOKEN="$(cat "$HOME/.codex/bgssh-http-token")"
   export SSH_CONNECTOR_CONFIG="$HOME/.ssh-connector/servers.yaml"
   # GitHub contents uploads may not carry the executable mode bit.
