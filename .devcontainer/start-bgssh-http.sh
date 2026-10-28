@@ -16,6 +16,8 @@ TOKEN_FILE="$HOME/.codex/bgssh-http-token"
 LOG_DIR="$HOME/.cache/bgdb"
 LOG="$LOG_DIR/bgssh-http.log"
 PIDFILE="$LOG_DIR/bgssh-http.pid"
+SHA_FILE="$LOG_DIR/bgssh-http.git-sha"
+REPO="$HOME/.local/share/bgdb-ssh-connector"
 PORT=8765
 URL="http://127.0.0.1:$PORT"
 
@@ -62,15 +64,52 @@ if [[ ! "$TOKEN" =~ ^[a-f0-9]{64}$ ]]; then
 fi
 unset TOKEN
 
-# A previously started listener is good only if both health and auth checks pass.
+# Do not mistake an old but healthy listener for the current version.
+# The local repo is updated by restore-bgssh-mcp.sh before this script runs.
+CURRENT_SHA="$(git -C "$REPO" rev-parse HEAD)" || exit 1
+CURRENT_VERSION="$(cat "$REPO/VERSION" 2>/dev/null || echo unknown)"
+EXPECTED_PID="$(cat "$PIDFILE" 2>/dev/null || true)"
+OLD_SHA="$(cat "$SHA_FILE" 2>/dev/null || true)"
+
+owned_server_pid() {
+  local p="$1"
+  [[ "$p" =~ ^[0-9]+$ ]] || return 1
+  [[ -r "/proc/$p/cmdline" && -r "/proc/$p/status" ]] || return 1
+  [[ "$(stat -c %u "/proc/$p")" == "$(id -u)" ]] || return 1
+  # The process is the exact Python MCP backend we launched; never kill
+  # unrelated processes based solely on a PID or port number.
+  tr '\\0' ' ' < "/proc/$p/cmdline" | grep -Fq 'bgdb-ssh-connector/plugins/ssh-connector/server.py' || return 1
+  tr '\\0' ' ' < "/proc/$p/cmdline" | grep -Fq -- '--http' || return 1
+  kill -0 "$p" 2>/dev/null
+}
+
 health="$(curl -fsS --connect-timeout 2 --max-time 3 "$URL/health" 2>/dev/null || true)"
 code="$(curl -sS --connect-timeout 2 --max-time 3 -X POST -o /dev/null -w '%{http_code}' "$URL/mcp" 2>/dev/null || true)"
-if [[ "$health" == "ok" && "$code" == "401" ]]; then
-  echo "[BGSSH] MCP already running on 127.0.0.1:$PORT (protected HTTP 401)."
-  exit 0
-fi
-if [[ "$code" != "000" && -n "$code" ]]; then
-  echo "[BGSSH] Port $PORT is occupied by an unexpected HTTP service (HTTP $code); refusing to replace it." >&2
+
+if [[ "$health" == ok && "$code" == 401 ]]; then
+  if [[ "$OLD_SHA" == "$CURRENT_SHA" ]] && owned_server_pid "$EXPECTED_PID"; then
+    echo "[BGSSH] MCP already running at version $CURRENT_VERSION ($CURRENT_SHA); HTTP 401."
+    exit 0
+  fi
+  if ! owned_server_pid "$EXPECTED_PID"; then
+    echo "[BGSSH] Existing listener is not the tracked BGSSH process; refusing to stop it." >&2
+    exit 1
+  fi
+  echo "[BGSSH] Restarting tracked MCP process to load version $CURRENT_VERSION."
+  kill -TERM "$EXPECTED_PID"
+  for attempt in $(seq 1 20); do
+    if ! kill -0 "$EXPECTED_PID" 2>/dev/null; then
+      break
+    fi
+    sleep 1
+  done
+  if kill -0 "$EXPECTED_PID" 2>/dev/null; then
+    echo "[BGSSH] Old MCP process still running; refusing concurrent backend start." >&2
+    exit 1
+  fi
+  rm -f "$SHA_FILE"
+elif [[ "$code" != 000 && -n "$code" ]]; then
+  echo "[BGSSH] Port $PORT occupied by an unexpected HTTP service (HTTP $code); refusing to replace it." >&2
   exit 1
 fi
 
@@ -100,7 +139,8 @@ for attempt in $(seq 1 90); do
   health="$(curl -fsS --connect-timeout 1 --max-time 2 "$URL/health" 2>/dev/null || true)"
   code="$(curl -sS --connect-timeout 1 --max-time 2 -X POST -o /dev/null -w '%{http_code}' "$URL/mcp" 2>/dev/null || true)"
   if [[ "$health" == "ok" && "$code" == "401" ]]; then
-    echo "[BGSSH] MCP running on 127.0.0.1:$PORT, unauthenticated POST=401."
+    printf '%s\\n' "$CURRENT_SHA" > "$SHA_FILE"
+    echo "[BGSSH] MCP version $CURRENT_VERSION running on 127.0.0.1:$PORT; unauthenticated POST=401."
     echo "[BGSSH] GitHub Ports tab: forward 8765, keep PRIVATE until authentication is verified."
     echo "[BGSSH] HTTPS address (only after forwarding): https://${CODESPACE_NAME:-CODESPACE_NAME}-8765.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN:-app.github.dev}"
     exit 0
