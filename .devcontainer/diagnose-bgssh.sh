@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# Non-secret BGSSH service and Funnel diagnostic for GitHub Codespaces.
+# Produces only status codes, public hostnames and versions.
+set -uo pipefail
+BASE=http://127.0.0.1:8765
+echo "=== BGSSH LOCAL ==="
+if [[ -r "$HOME/.local/share/bgdb-ssh-connector/VERSION" ]]; then
+  printf 'Installed checkout version: '
+  cat "$HOME/.local/share/bgdb-ssh-connector/VERSION"
+fi
+if [[ -r "$HOME/.cache/bgdb/bgssh-http.git-sha" ]]; then
+  printf 'Started checkout commit: '
+  cat "$HOME/.cache/bgdb/bgssh-http.git-sha"
+fi
+curl -sS --connect-timeout 2 --max-time 4 -o /dev/null -w 'Local health HTTP %{http_code}\n' "$BASE/health" || true
+curl -sS --connect-timeout 2 --max-time 4 -X POST -o /dev/null -w 'Local unauth MCP HTTP %{http_code}\n' "$BASE/mcp" || true
+echo "=== TAILSCALE ==="
+if ! command -v tailscale >/dev/null 2>&1; then
+  echo 'Tailscale CLI unavailable'
+  exit 1
+fi
+state="$(tailscale status --json 2>/dev/null | /usr/bin/python3 -c 'import json,sys; print(json.load(sys.stdin).get("BackendState","unknown"))' 2>/dev/null || echo unavailable)"
+dns="$(tailscale status --json 2>/dev/null | /usr/bin/python3 -c 'import json,sys; print((json.load(sys.stdin).get("Self") or {}).get("DNSName","").rstrip("."))' 2>/dev/null || true)"
+echo "Tailscale backend state: $state"
+if [[ "$dns" =~ ^[a-zA-Z0-9-]+\.[a-zA-Z0-9.-]+\.ts\.net$ ]]; then
+  echo "Tailscale HTTPS hostname: $dns"
+  echo "=== PUBLIC FUNNEL HTTPS ==="
+  curl -sS --connect-timeout 5 --max-time 12 -o /dev/null -w 'Public health HTTP %{http_code}\n' "https://$dns/health" || true
+  curl -sS --connect-timeout 5 --max-time 12 -X POST -o /dev/null -w 'Public unauth MCP HTTP %{http_code}\n' "https://$dns/mcp" || true
+  echo "BGSSH ChatGPT URL format: https://$dns/<PRIVATE_TOKEN>/mcp"
+else
+  echo "No valid ts.net hostname for this node."
+fi
+echo "=== FUNNEL CONFIG ==="
+tailscale funnel status 2>&1 | sed -E 's#/[0-9a-f]{48,}/#/<REDACTED>/#g' | head -n 18
+echo "=== BOOT LOG (NO TOKENS) ==="
+if [[ -r "$HOME/.cache/bgdb/codespace-restore.log" ]]; then
+  grep -E '^\[BGSSH( Funnel)?\]|^\[BGDB\]' "$HOME/.cache/bgdb/codespace-restore.log" | tail -n 20 | sed -E 's#/[0-9a-f]{48,}/#/<REDACTED>/#g' || true
+fi
