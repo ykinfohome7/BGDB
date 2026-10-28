@@ -57,6 +57,8 @@ jobs:
           assert "bgssh.abrdns.com" not in mcp  # HTTPS isn't the Codespace SSH endpoint
           http=Path(".devcontainer/start-bgssh-http.sh").read_text()
           assert "--host 127.0.0.1 --port 8765" in http
+          assert 'exec sh "$HOME/.local/share/bgdb-ssh-connector/plugins/ssh-connector/bin/run.sh"' in http
+          assert "python3 -I -c 'import secrets, venv, ssl'" in http
           assert ".codex/bgssh-http-token" in http
           assert "head -c 32 /dev/urandom" in http
           assert '[[ ! -s "$TOKEN_FILE" ]]' in http
