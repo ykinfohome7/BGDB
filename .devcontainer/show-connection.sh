@@ -20,6 +20,21 @@ else
   printf 'Claude Code: pending container Rebuild or feature installation\n'
 fi
 printf 'Claude Code login/start: sudo -iu vscode ; cd /workspaces/BGDB ; claude\n'
+printf '\n========== OPENAI / CHATGPT / CODEX ==========\n'
+if [ -x /home/vscode/.local/bin/codex ]; then
+  printf 'OpenAI Codex CLI: installed; run as vscode\n'
+  /home/vscode/.local/bin/codex --version 2>/dev/null || true
+elif command -v codex >/dev/null 2>&1; then
+  printf 'OpenAI Codex CLI: installed and on PATH\n'
+  codex --version 2>/dev/null || true
+else
+  printf 'OpenAI Codex CLI: missing; run bash /workspaces/BGDB/.devcontainer/setup-ai-tools.sh as vscode\n'
+fi
+printf 'OpenAI Codex login/start: sudo -iu vscode ; cd /workspaces/BGDB ; codex\n'
+printf 'VS Code extension: openai.chatgpt (configured for install at Codespace Rebuild)\n'
+printf 'The ChatGPT web app is separate; Codex CLI signs in using your ChatGPT account.\n'
+printf '=============================================\n'
+
 if command -v tailscale >/dev/null 2>&1; then
   ip="$(tailscale ip -4 2>/dev/null | head -n1 || true)"
   if [ -n "$ip" ]; then
