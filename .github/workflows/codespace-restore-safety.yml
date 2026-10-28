@@ -30,6 +30,7 @@ jobs:
           bash -n .devcontainer/restore-bgssh-mcp.sh
           bash -n .devcontainer/start-bgssh-http.sh
           bash -n .devcontainer/start-bgssh-funnel.sh
+          bash -n .devcontainer/diagnose-bgssh.sh
           bash -n .devcontainer/restore-codespace.sh
           bash -n .devcontainer/show-connection.sh
           bash -n .devcontainer/finish-bgdb-setup.sh
@@ -83,6 +84,13 @@ jobs:
           assert "--host 127.0.0.1 --port 8765" in http
           assert 'exec sh "$HOME/.local/share/bgdb-ssh-connector/plugins/ssh-connector/bin/run.sh"' in http
           assert "python3 -I -c 'import secrets, venv, ssl'" in http
+          assert "CURRENT_SHA=" in http
+          assert "CURRENT_VERSION=" in http
+          assert "bgssh-http.git-sha" in http
+          assert "owned_server_pid()" in http
+          assert "kill -TERM" in http
+          assert "tr '\\0' ' '" in http
+          assert "printf '%s\\n'" in http
           assert ".codex/bgssh-http-token" in http
           assert "head -c 32 /dev/urandom" in http
           assert '[[ ! -s "$TOKEN_FILE" ]]' in http
@@ -95,6 +103,10 @@ jobs:
           assert "start-bgssh-http.sh" in restore
           assert "start-bgssh-funnel.sh" in restore
           assert "publish-bgssh-codespace-port.sh" not in restore
+          diag=Path(".devcontainer/diagnose-bgssh.sh").read_text()
+          assert "Public health HTTP" in diag
+          assert "Public unauth MCP HTTP" in diag
+          assert "<PRIVATE_TOKEN>" in diag
           funnel=Path(".devcontainer/start-bgssh-funnel.sh").read_text()
           assert "tailscale funnel --yes --bg --https=443 127.0.0.1:8765" in funnel
           assert 'denied" != 401' in funnel
