@@ -48,11 +48,10 @@ run_step "Restore local BGSSH MCP for Claude Code and Codex" \
 run_step "Start private authenticated BGSSH MCP HTTP (127.0.0.1:8765)" \
   bash "$ROOT/.devcontainer/start-bgssh-http.sh"
 
-# Only after the private MCP and token protection pass: ask GitHub Codespaces
-# to publish 8765 via its own HTTPS proxy. This never changes SSH port 2222.
-# GitHub can revert forwarding to private on each restart.
-run_step "Publish token-protected BGSSH MCP through GitHub Codespaces HTTPS" \
-  bash "$ROOT/.devcontainer/publish-bgssh-codespace-port.sh"
+# Reuse the persistent Tailscale node identity and HTTPS Funnel DNS name.
+# The Codespaces forwarding port remains PRIVATE; do not publish it.
+run_step "Restore protected BGSSH MCP via stable Tailscale Funnel HTTPS 443" \
+  bash "$ROOT/.devcontainer/start-bgssh-funnel.sh"
 
 if tailscale ip -4 >/dev/null 2>&1; then
   echo "[BGDB] OK: Tailscale private IPv4 present."
