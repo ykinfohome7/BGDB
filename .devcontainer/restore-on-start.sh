@@ -46,6 +46,6 @@ if [ -f /etc/ssh/ssh_host_ed25519_key.pub ]; then
     awk '{ print "[BGDB restore] SSH ED25519 public fingerprint: " $2 }'
 fi
 say 'No DNS A record or HTTPS certificate was changed.'
-say 'bgssh.abrdns.com Let's Encrypt certificate belongs on HTTPS ingress, not SSH port 2222.'
+say "bgssh.abrdns.com Let's Encrypt certificate belongs on HTTPS ingress, not SSH port 2222."
 say 'If SSH host fingerprint or Tailscale IPv4 changed after a new Codespace, update and verify the BGSSH connector profile.'
 say 'Codespace boot restoration finished.'
