@@ -42,7 +42,4 @@ if ! /usr/bin/python3 -I -c 'import secrets, venv, ssl, ensurepip' >/dev/null 2>
 fi
 
 /usr/bin/python3 -I -c 'import secrets, venv, ssl, ensurepip; print("[BGDB] Python 3.13 stdlib and venv: OK")'
-/usr/sbin/sshd -t 2>/dev/null || {
-  echo "[BGDB] SSH configuration test deferred to setup-bgadmin.sh." >&2
-}
 echo "[BGDB] Debian dependencies: OK."
