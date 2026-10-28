@@ -49,8 +49,10 @@ if [[ -e "$TOKEN_FILE" && ! -O "$TOKEN_FILE" ]]; then
   }
 fi
 
-if [[ ! -e "$TOKEN_FILE" ]]; then
-  python3 -c 'import secrets; print(secrets.token_hex(32))' > "$TOKEN_FILE"
+if [[ ! -s "$TOKEN_FILE" ]]; then
+  # Linux kernel CSPRNG: 32 random bytes, formatted as a 64-digit hex token.
+  # Using coreutils avoids broken/incomplete Python stdlib environments.
+  (head -c 32 /dev/urandom | od -An -tx1 | tr -d '[:space:]') > "$TOKEN_FILE"
 fi
 chmod 600 "$TOKEN_FILE"
 TOKEN="$(cat "$TOKEN_FILE")"
