@@ -4,15 +4,22 @@
   "features": {
     "ghcr.io/devcontainers/features/sshd:1": {},
     "ghcr.io/tailscale/codespace/tailscale": {},
-    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {},
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    }
   },
-  "postStartCommand": "sudo -n bash /workspaces/BGDB/.devcontainer/setup-bgadmin.sh",
+  "postStartCommand": "bash /workspaces/BGDB/.devcontainer/restore-on-start.sh",
   "runArgs": [
     "--device=/dev/net/tun"
   ],
   "remoteUser": "vscode",
   "mounts": [
-    "source=bgdb-claude-config-${devcontainerId},target=/home/vscode/.claude,type=volume"
+    "source=bgdb-claude-config-${devcontainerId},target=/home/vscode/.claude,type=volume",
+    "source=bgdb-codex-config-${devcontainerId},target=/home/vscode/.codex,type=volume",
+    "source=bgdb-ai-tools-${devcontainerId},target=/home/vscode/.local/share/bgdb-ai-tools,type=volume",
+    "source=bgdb-sshd-keys-${devcontainerId},target=/var/lib/bgdb-ssh-hostkeys,type=volume",
+    "source=bgdb-tailscale-state-${devcontainerId},target=/var/lib/tailscale,type=volume"
   ],
   "containerEnv": {
     "CLAUDE_CONFIG_DIR": "/home/vscode/.claude"
