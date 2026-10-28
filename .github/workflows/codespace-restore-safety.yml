@@ -1,0 +1,51 @@
+name: codespace-restore-safety
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.devcontainer/**'
+      - '.github/workflows/codespace-restore-safety.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Bash syntax for startup scripts
+        run: |
+          bash -n .devcontainer/setup-bgadmin.sh
+          bash -n .devcontainer/setup-ai-tools.sh
+          bash -n .devcontainer/restore-bgssh-mcp.sh
+          bash -n .devcontainer/restore-codespace.sh
+          bash -n .devcontainer/show-connection.sh
+          bash -n .devcontainer/finish-bgdb-setup.sh
+      - name: Validate devcontainer JSON and safe restore setup
+        run: |
+          python3 -m json.tool .devcontainer/devcontainer.json >/dev/null
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path(".devcontainer/devcontainer.json").read_text())
+          assert c.get("postStartCommand") == "bash /workspaces/BGDB/.devcontainer/restore-codespace.sh"
+          ssh=Path(".devcontainer/setup-bgadmin.sh").read_text()
+          assert "Port 2222" in ssh
+          assert "SSH_STATE=/workspaces/.bgdb-private/ssh-host-keys" in ssh
+          assert "/usr/sbin/sshd -t" in ssh
+          assert "ssh-keygen -A" in ssh
+          mcp=Path(".devcontainer/restore-bgssh-mcp.sh").read_text()
+          assert "127.0.0.1" in mcp and "2222" in mcp
+          assert "StrictHostKeyChecking=yes" in mcp
+          assert "ssh_host_ed25519_key.pub" in mcp
+          assert "bgssh.abrdns.com" not in mcp  # HTTPS isn't the Codespace SSH endpoint
+          assert all(not p.exists() for p in [
+              Path(".devcontainer/.env"), Path(".devcontainer/id_rsa"),
+              Path(".devcontainer/ssl.key")
+          ])
+          print("Codespace restore static safety checks PASS (not a live SSH/HTTPS test)")
+          PY
