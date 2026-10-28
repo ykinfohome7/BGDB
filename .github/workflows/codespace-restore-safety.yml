@@ -58,6 +58,11 @@ jobs:
           assert "secrets, venv, ssl, ensurepip" in deps
           assert 'if (( ${#missing[@]} > 0 ))' in deps
           assert "apt-get install -y --no-install-recommends" in deps
+          assert "apt-get -y --no-remove dist-upgrade" in deps
+          assert "UPGRADE_INTERVAL_SECONDS=86400" in deps
+          assert 'full-upgrade.last-success' in deps
+          assert 'apt-get update && apt-get -y --no-remove dist-upgrade' in deps
+          assert "Full-upgrade needs manual attention" in deps
           first_run=Path(".devcontainer/finish-bgdb-setup.sh").read_text()
           assert "grep -qx 'port 2222'" in first_run
           assert "tee /etc/ssh/sshd_config.d/00-bgdb-password.conf" not in first_run
