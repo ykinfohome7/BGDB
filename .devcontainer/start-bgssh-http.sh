@@ -26,6 +26,29 @@ command -v curl >/dev/null || { echo "[BGSSH] curl missing." >&2; exit 1; }
 
 mkdir -p "$HOME/.codex" "$LOG_DIR"
 chmod 700 "$LOG_DIR"
+
+# Named Docker volumes may initially be owned by root after a Codespace rebuild.
+# Repair ONLY the Codex volume's mount directory and (if present) this one token.
+# Never recursively chown the volume or change existing Codex credentials.
+if [[ -L "$HOME/.codex" || -L "$TOKEN_FILE" ]]; then
+  echo "[BGSSH] Refusing symlinked Codex token directory/file." >&2
+  exit 1
+fi
+if [[ ! -O "$HOME/.codex" || ! -w "$HOME/.codex" ]]; then
+  echo "[BGSSH] Repairing ownership of the Codex token volume for vscode."
+  sudo -n chown vscode:vscode "$HOME/.codex" || {
+    echo "[BGSSH] Could not repair ~/.codex ownership; run: sudo chown vscode:vscode /home/vscode/.codex" >&2
+    exit 1
+  }
+fi
+chmod 700 "$HOME/.codex"
+if [[ -e "$TOKEN_FILE" && ! -O "$TOKEN_FILE" ]]; then
+  sudo -n chown vscode:vscode "$TOKEN_FILE" || {
+    echo "[BGSSH] Could not repair private token ownership." >&2
+    exit 1
+  }
+fi
+
 if [[ ! -e "$TOKEN_FILE" ]]; then
   python3 -c 'import secrets; print(secrets.token_hex(32))' > "$TOKEN_FILE"
 fi
