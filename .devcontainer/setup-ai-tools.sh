@@ -20,11 +20,22 @@ if [ -s "$HOME/.nvm/nvm.sh" ]; then
   source "$HOME/.nvm/nvm.sh"
 fi
 
+if ! command -v node >/dev/null 2>&1 || ! command -v npm >/dev/null 2>&1; then
+  echo "Node.js/npm missing: Rebuild Codespace to apply the Node LTS devcontainer feature." >&2
+  exit 2
+fi
 echo "Node: $(node --version)"
 echo "npm: $(npm --version)"
 
-# Local (non-global) installation avoids permission and nvm prefix conflicts.
-npm install --prefix "$TOOLS_DIR" --no-audit --no-fund @openai/codex @anthropic-ai/claude-code
+# Reuse packages from the persistent volume after stop/start or rebuild.
+# Upgrade intentionally with BGDB_AI_UPDATE=1, not on every boot.
+if [ "${BGDB_AI_UPDATE:-0}" = 1 ] ||
+   [ ! -x "$TOOLS_DIR/node_modules/.bin/codex" ] ||
+   [ ! -x "$TOOLS_DIR/node_modules/.bin/claude" ]; then
+  npm install --prefix "$TOOLS_DIR" --no-audit --no-fund @openai/codex @anthropic-ai/claude-code
+else
+  echo "Reusing persistent Claude Code + Codex installation."
+fi
 
 for tool in codex claude; do
   if [ ! -x "$TOOLS_DIR/node_modules/.bin/$tool" ]; then
