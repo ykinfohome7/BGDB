@@ -29,7 +29,7 @@ jobs:
           bash -n .devcontainer/setup-ai-tools.sh
           bash -n .devcontainer/restore-bgssh-mcp.sh
           bash -n .devcontainer/start-bgssh-http.sh
-          bash -n .devcontainer/publish-bgssh-codespace-port.sh
+          bash -n .devcontainer/start-bgssh-funnel.sh
           bash -n .devcontainer/restore-codespace.sh
           bash -n .devcontainer/show-connection.sh
           bash -n .devcontainer/finish-bgdb-setup.sh
@@ -93,15 +93,16 @@ jobs:
           assert "trycloudflare" not in http and "cloudflared" not in http
           restore=Path(".devcontainer/restore-codespace.sh").read_text()
           assert "start-bgssh-http.sh" in restore
-          assert "publish-bgssh-codespace-port.sh" in restore
-          publish=Path(".devcontainer/publish-bgssh-codespace-port.sh").read_text()
-          assert 'denied" != 401' in publish
-          assert "gh codespace ports visibility" in publish
-          assert '"$PORT:public"' in publish
-          assert '[[ -z "${CODESPACE_NAME:-}" ]]' in publish
-          assert "CODESPACE_NAME" in publish
-          assert "SSH_CONNECTOR_TOKEN" not in publish
-          assert "trycloudflare" not in publish
+          assert "start-bgssh-funnel.sh" in restore
+          assert "publish-bgssh-codespace-port.sh" not in restore
+          funnel=Path(".devcontainer/start-bgssh-funnel.sh").read_text()
+          assert "tailscale funnel --yes --bg --https=443 127.0.0.1:8765" in funnel
+          assert 'denied" != 401' in funnel
+          assert "tailscale status --json" in funnel
+          assert "CODESPACE_NAME" not in funnel
+          assert "SSH_CONNECTOR_TOKEN" not in funnel
+          assert "trycloudflare" not in funnel and "cloudflared" not in funnel
+          assert 'gh codespace ports visibility' not in funnel
           assert all(not p.exists() for p in [
               Path(".devcontainer/.env"), Path(".devcontainer/id_rsa"),
               Path(".devcontainer/ssl.key")
