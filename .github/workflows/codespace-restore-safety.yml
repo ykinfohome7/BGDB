@@ -44,6 +44,8 @@ jobs:
           assert "SSH_STATE=/workspaces/.bgdb-private/ssh-host-keys" in ssh
           assert "/usr/sbin/sshd -t" in ssh
           assert "ssh-keygen -A" in ssh
+          assert "libpython3.13-stdlib python3.13-venv" in ssh
+          assert "python3 -I -c 'import secrets, venv, ssl" in ssh
           first_run=Path(".devcontainer/finish-bgdb-setup.sh").read_text()
           assert "grep -qx 'port 2222'" in first_run
           assert "tee /etc/ssh/sshd_config.d/00-bgdb-password.conf" not in first_run
