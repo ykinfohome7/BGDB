@@ -120,8 +120,20 @@ public_health="$(curl -fsS --connect-timeout 4 --max-time 15 "$PUBLIC/health" 2>
 if [[ "$public_health" == ok ]]; then
   code="$(curl -sS --connect-timeout 4 --max-time 15 -X POST -o /dev/null -w '%{http_code}' "$PUBLIC/mcp" 2>/dev/null || true)"
   if [[ "$code" == 401 ]]; then
-    echo "[BGSSH Funnel] HTTPS verified: health=ok, unauthenticated /mcp=401."
-    exit 0
+    echo "[BGSSH Funnel] HTTPS verified FROM CODESPACE: health=ok, unauthenticated /mcp=401."
+    echo "[BGSSH Funnel] Checking PUBLIC DNS independently of tailnet MagicDNS."
+    DNS_CHECK=/workspaces/BGDB/.devcontainer/check-bgssh-public-dns.py
+    if [[ ! -r "$DNS_CHECK" ]]; then
+      echo "[BGSSH Funnel] Public DNS checker missing; Internet reachability unverified." >&2
+      exit 1
+    fi
+    if /usr/bin/python3 "$DNS_CHECK" "$dns"; then
+      echo "[BGSSH Funnel] Public DNS records exist (does not guarantee ChatGPT can connect)."
+      exit 0
+    fi
+    echo "[BGSSH Funnel] Public DNS unavailable or unverified; possible Tailscale Funnel DNS incident." >&2
+    echo "[BGSSH Funnel] Local service is still healthy; do not reset Funnel or change the MCP token." >&2
+    exit 1
   fi
   echo "[BGSSH Funnel] HTTPS reachable but authentication response was HTTP $code (expected 401)." >&2
   exit 1
