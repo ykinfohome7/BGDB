@@ -52,11 +52,14 @@ jobs:
           mcp=Path(".devcontainer/restore-bgssh-mcp.sh").read_text()
           assert "127.0.0.1" in mcp and "2222" in mcp
           assert "StrictHostKeyChecking=yes" in mcp
+          assert 'export PATH="$HOME/.local/bin:$PATH"' in mcp
           assert "ssh_host_ed25519_key.pub" in mcp
           assert "bgssh.abrdns.com" not in mcp  # HTTPS isn't the Codespace SSH endpoint
           http=Path(".devcontainer/start-bgssh-http.sh").read_text()
           assert "--host 127.0.0.1 --port 8765" in http
           assert ".codex/bgssh-http-token" in http
+          assert "sudo -n chown vscode:vscode" in http
+          assert '[[ -L "$HOME/.codex" || -L "$TOKEN_FILE" ]]' in http
           assert "chmod 600" in http
           assert "trycloudflare" not in http and "cloudflared" not in http
           restore=Path(".devcontainer/restore-codespace.sh").read_text()
