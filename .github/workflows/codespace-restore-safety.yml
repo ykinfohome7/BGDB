@@ -36,6 +36,8 @@ jobs:
           bash -n .devcontainer/finish-bgdb-setup.sh
       - name: Test safe BGSSH Funnel 443/8443 listener classification (offline)
         run: python3 .devcontainer/test-bgssh-funnel-config.py
+      - name: Test external Funnel DNS (offline)
+        run: python3 .devcontainer/test-bgssh-public-dns.py
       - name: Validate devcontainer JSON and safe restore setup
         run: |
           python3 -m json.tool .devcontainer/devcontainer.json >/dev/null
@@ -109,11 +111,16 @@ jobs:
           assert "Public health HTTP" in diag
           assert "Public unauth MCP HTTP" in diag
           assert "<PRIVATE_TOKEN>" in diag
+          assert "EXTERNAL PUBLIC DNS (NOT MAGICDNS)" in diag
+          assert "Using saved Funnel hostname" in diag
+          assert "check-bgssh-public-dns.py" in diag
           funnel=Path(".devcontainer/start-bgssh-funnel.sh").read_text()
           assert 'tailscale funnel --yes --bg --https="$PORT" 127.0.0.1:8765' in funnel
           assert 'tailscale funnel --yes --bg --https=8443 127.0.0.1:8765' in funnel
           assert 'tailscale serve status --json' in funnel
           assert 'check-bgssh-funnel-config.py' in funnel
+          assert "PUBLIC DNS independently of tailnet MagicDNS" in funnel
+          assert "check-bgssh-public-dns.py" in funnel
           assert 'funnel reset' not in funnel
           assert 'serve reset' not in funnel
           assert 'Preserving existing HTTPS 443 service' in funnel
