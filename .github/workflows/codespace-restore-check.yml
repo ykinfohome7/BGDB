@@ -1,0 +1,25 @@
+name: codespace-restore-check
+on:
+  pull_request:
+    paths:
+      - ".devcontainer/**"
+      - "tests/test_codespace_restore.py"
+      - ".github/workflows/codespace-restore-check.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Codespace boot scripts
+        run: |
+          bash -n .devcontainer/restore-on-start.sh
+          bash -n .devcontainer/setup-bgadmin.sh
+          bash -n .devcontainer/finish-bgdb-setup.sh
+          bash -n .devcontainer/setup-ai-tools.sh
+          bash -n .devcontainer/show-connection.sh
+      - name: Check persistence, port 2222, AI and TLS separation
+        run: python3 tests/test_codespace_restore.py
