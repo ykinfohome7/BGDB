@@ -22,17 +22,30 @@ fi
 state="$(tailscale status --json 2>/dev/null | /usr/bin/python3 -c 'import json,sys; print(json.load(sys.stdin).get("BackendState","unknown"))' 2>/dev/null || echo unavailable)"
 dns="$(tailscale status --json 2>/dev/null | /usr/bin/python3 -c 'import json,sys; print((json.load(sys.stdin).get("Self") or {}).get("DNSName","").rstrip("."))' 2>/dev/null || true)"
 echo "Tailscale backend state: $state"
-if [[ "$dns" =~ ^[a-zA-Z0-9-]+\.[a-zA-Z0-9.-]+\.ts\.net$ ]]; then
+if [[ "$dns" =~ ^[a-zA-Z0-9-]+\\.[a-zA-Z0-9.-]+\\.ts\\.net$ ]]; then
   echo "Tailscale HTTPS hostname: $dns"
+  BASE_PUBLIC="https://$dns"
+  SAVED="$HOME/.cache/bgdb/bgssh-funnel-public-url"
+  if [[ -r "$SAVED" && ! -L "$SAVED" ]]; then
+    candidate="$(cat "$SAVED" 2>/dev/null || true)"
+    if [[ "$candidate" == "https://$dns" || "$candidate" == "https://$dns:8443" ]]; then
+      BASE_PUBLIC="$candidate"
+    fi
+  fi
   echo "=== PUBLIC FUNNEL HTTPS ==="
-  curl -sS --connect-timeout 5 --max-time 12 -o /dev/null -w 'Public health HTTP %{http_code}\n' "https://$dns/health" || true
-  curl -sS --connect-timeout 5 --max-time 12 -X POST -o /dev/null -w 'Public unauth MCP HTTP %{http_code}\n' "https://$dns/mcp" || true
-  echo "BGSSH ChatGPT URL format: https://$dns/<PRIVATE_TOKEN>/mcp"
+  echo "Configured HTTPS base: $BASE_PUBLIC"
+  curl -sS --connect-timeout 5 --max-time 12 -o /dev/null -w 'Public health HTTP %{http_code}\\n' "$BASE_PUBLIC/health" || true
+  curl -sS --connect-timeout 5 --max-time 12 -X POST -o /dev/null -w 'Public unauth MCP HTTP %{http_code}\\n' "$BASE_PUBLIC/mcp" || true
+  echo "BGSSH ChatGPT URL format: $BASE_PUBLIC/<PRIVATE_TOKEN>/mcp"
 else
   echo "No valid ts.net hostname for this node."
 fi
-echo "=== FUNNEL CONFIG ==="
-tailscale funnel status 2>&1 | sed -E 's#/[0-9a-f]{48,}/#/<REDACTED>/#g' | head -n 18
+echo "=== FUNNEL CONFIG (SAFE SUMMARY) ==="
+if cfg="$(sudo -n tailscale serve status --json 2>/dev/null)" && [[ -r /workspaces/BGDB/.devcontainer/check-bgssh-funnel-config.py ]]; then
+  printf '%s' "$cfg" | /usr/bin/python3 /workspaces/BGDB/.devcontainer/check-bgssh-funnel-config.py || true
+else
+  echo "Cannot inspect Serve/Funnel status."
+fi
 echo "=== BOOT LOG (NO TOKENS) ==="
 if [[ -r "$HOME/.cache/bgdb/codespace-restore.log" ]]; then
   grep -E '^\[BGSSH( Funnel)?\]|^\[BGDB\]' "$HOME/.cache/bgdb/codespace-restore.log" | tail -n 20 | sed -E 's#/[0-9a-f]{48,}/#/<REDACTED>/#g' || true
