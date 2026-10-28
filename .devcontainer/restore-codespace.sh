@@ -28,6 +28,13 @@ if [[ ! -f "$ROOT/.devcontainer/setup-bgadmin.sh" ]]; then
   exit 1
 fi
 
+# Винаги първо поправи временните директории и провери Debian/Python.
+# --no-upgrade предотвратява дълъг apt dist-upgrade при всеки resume.
+run_step "Repair shared /tmp 1777 and private /tmp/bgadmin 0700" \
+  sudo -n bash "$ROOT/.devcontainer/fix-tmp-permissions.sh"
+run_step "Verify Debian system packages and Python 3.13 before AI tools" \
+  sudo -n bash "$ROOT/.devcontainer/install-debian-deps.sh" --no-upgrade
+
 run_step "Restore private SSH 2222, stable host keys and Tailscale daemon" \
   sudo -n bash "$ROOT/.devcontainer/setup-bgadmin.sh"
 

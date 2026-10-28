@@ -29,7 +29,7 @@
       ]
     }
   },
-  "postCreateCommand": "sudo -n bash /workspaces/BGDB/.devcontainer/install-debian-deps.sh && sudo -n bash /workspaces/BGDB/.devcontainer/install-ai-emds-deps.sh",
+  "postCreateCommand": "sudo -n bash /workspaces/BGDB/.devcontainer/fix-tmp-permissions.sh && sudo -n bash /workspaces/BGDB/.devcontainer/install-debian-deps.sh && sudo -n bash /workspaces/BGDB/.devcontainer/install-ai-emds-deps.sh",
   "forwardPorts": [
     8765,
     3100
