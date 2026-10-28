@@ -13,13 +13,54 @@ if ! command -v sshd >/dev/null 2>&1 && [ ! -x /usr/sbin/sshd ]; then
   apt-get install -y --no-install-recommends openssh-server
 fi
 mkdir -p /etc/ssh/sshd_config.d /run/sshd
+
+# Preserve the Codespace SSH HOST identity across stop/start and rebuilds.
+# Named Docker volume configured in devcontainer.json persists for this Codespace.
+# TLS certificate for bgssh.abrdns.com is unrelated to SSH host keys.
+SSH_KEY_STORE=/var/lib/bgdb-ssh-hostkeys
+mkdir -p "$SSH_KEY_STORE"
+chmod 700 "$SSH_KEY_STORE"
+if compgen -G "$SSH_KEY_STORE/ssh_host_*_key" > /dev/null; then
+  for key in "$SSH_KEY_STORE"/ssh_host_*_key; do
+    [ -f "$key" ] || continue
+    install -m 0600 "$key" "/etc/ssh/$(basename "$key")"
+    if [ -f "$key.pub" ]; then
+      install -m 0644 "$key.pub" "/etc/ssh/$(basename "$key").pub"
+    fi
+  done
+else
+  ssh-keygen -A >/dev/null
+  for key in /etc/ssh/ssh_host_*_key; do
+    [ -f "$key" ] || continue
+    install -m 0600 "$key" "$SSH_KEY_STORE/$(basename "$key")"
+    if [ -f "$key.pub" ]; then
+      install -m 0644 "$key.pub" "$SSH_KEY_STORE/$(basename "$key").pub"
+    fi
+  done
+fi
+
+# BGSSH workflow targets the BGDB Codespace on Tailscale port 2222.
+# Preserve pre-existing password policy; do not change passwords on boot.
 cat > /etc/ssh/sshd_config.d/00-bgdb-password.conf <<'SSHD_CONF'
+Port 2222
 PasswordAuthentication yes
 PermitEmptyPasswords no
 PermitRootLogin yes
 SSHD_CONF
 /usr/sbin/sshd -t
+if ! /usr/sbin/sshd -T | grep -qx 'port 2222'; then
+  echo 'ERROR: BGDB sshd is NOT configured for port 2222' >&2
+  exit 1
+fi
 service ssh reload >/dev/null 2>&1 || service ssh start >/dev/null 2>&1 || /usr/sbin/sshd
+if command -v ss >/dev/null 2>&1; then
+  ss -ltn | awk '$4 ~ /:2222$/ { found=1 } END {exit !found}' ||
+    { echo 'ERROR: BGDB sshd does not listen on 2222' >&2; exit 1; }
+fi
+echo 'BGDB SSH: port 2222 is configured and listening.'
+# Public key fingerprint can be compared to the GitHub SSH_CONNECTOR_KNOWN_HOSTS secret.
+ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub 2>/dev/null |
+  awk '{print "BGDB SSH ED25519 fingerprint: " $2}' || true
 
 # Tailscale Codespaces feature normally installs the client and launches tailscaled.
 # If the feature is absent, use the official Debian 13 (Trixie) package repository.
