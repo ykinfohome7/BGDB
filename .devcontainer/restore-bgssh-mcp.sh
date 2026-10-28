@@ -3,6 +3,9 @@
 # Does not open public ports, publish DNS, or copy HTTPS certificate private keys.
 set -Eeuo pipefail
 
+# sudo -u vscode -H bash -c does not source ~/.bashrc: restore local CLI PATH.
+export PATH="$HOME/.local/bin:$PATH"
+
 if [[ "$(id -u)" -eq 0 ]]; then
   echo "Run this script as the Codespace vscode user (not root)." >&2
   exit 1
