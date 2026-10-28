@@ -15,6 +15,9 @@ fi
 say '1/4 Restoring SSH service, original host identity, and port 2222...'
 sudo -n bash "$BASE/setup-bgadmin.sh"
 
+# Named volumes are initially root-owned on some Codespaces; let vscode write its own data.
+sudo -n mkdir -p "$HOME/.codex" "$HOME/.local/share/bgdb-ai-tools"
+sudo -n chown "$(id -u):$(id -g)" "$HOME/.codex" "$HOME/.local/share/bgdb-ai-tools"
 say '2/4 Restoring Claude Code and Codex binaries (authentication retained in private volumes)...'
 if ! bash "$BASE/setup-ai-tools.sh"; then
   warn 'AI CLI restore incomplete. Check Node.js and run: bash .devcontainer/setup-ai-tools.sh'
@@ -43,6 +46,6 @@ if [ -f /etc/ssh/ssh_host_ed25519_key.pub ]; then
     awk '{ print "[BGDB restore] SSH ED25519 public fingerprint: " $2 }'
 fi
 say 'No DNS A record or HTTPS certificate was changed.'
-say 'bgssh.abrdns.com Let\x27s Encrypt certificate belongs on HTTPS ingress, not SSH port 2222.'
+say 'bgssh.abrdns.com Let's Encrypt certificate belongs on HTTPS ingress, not SSH port 2222.'
 say 'If SSH host fingerprint or Tailscale IPv4 changed after a new Codespace, update and verify the BGSSH connector profile.'
 say 'Codespace boot restoration finished.'
