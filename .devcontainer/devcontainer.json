@@ -28,5 +28,6 @@
         "openai.chatgpt"
       ]
     }
-  }
+  },
+  "postCreateCommand": "sudo -n bash /workspaces/BGDB/.devcontainer/install-debian-deps.sh"
 }
