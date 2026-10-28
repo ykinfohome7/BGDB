@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Show Codespaces identity and safe private SSH connection commands.
 cs="${CODESPACE_NAME:-unknown}"
-ssh_port="$(sudo -n /usr/sbin/sshd -T 2>/dev/null | awk '$1 == \"port\" {print $2; exit}' || true)"
-ssh_port="${ssh_port:-2222}"
+ssh_port="$(sudo -n /usr/sbin/sshd -T 2>/dev/null | awk '$1 == "port" && $2 == "2222" {print $2; exit}' || true)"
+ssh_port="${ssh_port:-2222}" # Default display; setup verifies the real listener.
 printf 'Detected SSH port: %s\n' "$ssh_port"
 printf '\n========== BGDB REMOTE ACCESS ==========\n'
 printf 'Login user: bgadmin (sudo administrator)\n'
