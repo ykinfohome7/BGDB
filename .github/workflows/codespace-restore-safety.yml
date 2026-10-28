@@ -38,6 +38,11 @@ jobs:
           assert "SSH_STATE=/workspaces/.bgdb-private/ssh-host-keys" in ssh
           assert "/usr/sbin/sshd -t" in ssh
           assert "ssh-keygen -A" in ssh
+          first_run=Path(".devcontainer/finish-bgdb-setup.sh").read_text()
+          assert "grep -qx 'port 2222'" in first_run
+          assert "tee /etc/ssh/sshd_config.d/00-bgdb-password.conf" not in first_run
+          assert any("target=/var/lib/tailscale" in m for m in c["mounts"])
+          assert "ghcr.io/devcontainers/features/node:1" in c["features"]
           mcp=Path(".devcontainer/restore-bgssh-mcp.sh").read_text()
           assert "127.0.0.1" in mcp and "2222" in mcp
           assert "StrictHostKeyChecking=yes" in mcp
