@@ -41,3 +41,6 @@ fi
 printf '\nThe IP above and the github.dev URL are not public SSH hostnames.\n'
 printf 'On a fresh/rebuilt container, set the password once: sudo passwd bgadmin\n'
 printf '=========================================\n\n'
+
+printf 'BGDB SSH port %s uses SSH host keys, NOT a Lets Encrypt HTTPS certificate.\n' "$ssh_port"
+printf 'bgssh.abrdns.com is separate HTTPS ingress (443); it is NOT the SSH port.\n'
