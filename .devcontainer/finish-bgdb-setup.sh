@@ -30,15 +30,17 @@ else
   echo 'STEP 2/4: Root password already configured.'
 fi
 
-printf '\nSTEP 3/4: Enabling SSH password login for bgadmin and root...\n'
-sudo -n mkdir -p /etc/ssh/sshd_config.d
-printf 'PasswordAuthentication yes\nPermitEmptyPasswords no\nPermitRootLogin yes\n' | sudo -n tee /etc/ssh/sshd_config.d/00-bgdb-password.conf >/dev/null
-if sudo -n /usr/sbin/sshd -t && (sudo -n service ssh reload || sudo -n service ssh start); then
+printf '\nSTEP 3/4: Checking restored SSH login on port 2222...\n'
+# The root bootstrap owns sshd configuration. Do not overwrite its Port 2222
+# directive when setting up interactive passwords.
+if sudo -n /usr/sbin/sshd -t &&
+   sudo -n /usr/sbin/sshd -T | grep -qx 'port 2222' &&
+   (sudo -n service ssh reload || sudo -n service ssh start); then
   echo 'SSH configuration is valid and service reloaded.'
   sudo -n /usr/sbin/sshd -T | grep -E '^(port|passwordauthentication|permitrootlogin) ' || true
   echo 'Use private Tailscale access; do not publish an SSH port.'
 else
-  echo 'SSH could not be started. Check the startup log.'
+  echo 'SSH could not be validated on port 2222. Check the startup log.'
 fi
 
 printf '\nSTEP 4/4: Connecting Tailscale...\n'
