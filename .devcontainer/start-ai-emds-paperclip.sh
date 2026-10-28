@@ -2,7 +2,7 @@
 # BGDB AI-EMDS: изпълнява се като bgadmin, без root и без публичен порт.
 set -Eeuo pipefail
 umask 077
-export PATH="/usr/local/share/nvm/current/bin:$HOME/.local/bin:$PATH"
+export PATH="$HOME/.cargo/bin:/usr/local/share/nvm/current/bin:$HOME/.local/bin:$PATH"
 REPO="$HOME/ai-engineering-dispatch"
 REMOTE="https://github.com/ykinfohome7/ai-engineering-dispatch.git"
 STATE="$HOME/.local/state/bgdb-ai-emds"
