@@ -1,0 +1,45 @@
+name: bgssh-public-reachability
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/bgssh-public-reachability.yml"
+permissions:
+  contents: read
+jobs:
+  external-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Verify public DNS and unauthenticated HTTP responses
+        shell: bash
+        env:
+          BGSSH_HOST: codespaces-2d1f9f.tail675f12.ts.net
+        run: |
+          set -uo pipefail
+          echo "=== PUBLIC DNS FROM GITHUB-HOSTED RUNNER ==="
+          if getent ahosts "$BGSSH_HOST" >/dev/null; then
+            echo "GITHUB_RUNNER_DNS=RESOLVED"
+          else
+            echo "GITHUB_RUNNER_DNS=FAILED"
+          fi
+          echo "=== GOOGLE PUBLIC DNS A ==="
+          if curl -fsS --max-time 10 "https://dns.google/resolve?name=${BGSSH_HOST}&type=A" -o /tmp/bgssh-a.json; then
+            python3 - <<'PY'
+          import json
+          with open("/tmp/bgssh-a.json") as f:
+              data=json.load(f)
+          ans=data.get("Answer") or []
+          has_a=any(a.get("type")==1 and a.get("data") for a in ans)
+          print("GOOGLE_DNS_STATUS="+str(data.get("Status", "UNKNOWN")))
+          print("GOOGLE_DNS_A="+("PRESENT" if has_a else "MISSING"))
+          PY
+          else
+            echo "GOOGLE_DNS_QUERY=UNAVAILABLE"
+          fi
+          echo "=== EXTERNAL HTTPS (NO SECRETS) ==="
+          curl --noproxy '*' -sS --connect-timeout 6 --max-time 12 -o /dev/null \
+            -w 'EXTERNAL_HEALTH_HTTP=%{http_code}\n' "https://${BGSSH_HOST}/health" || true
+          curl --noproxy '*' -sS --connect-timeout 6 --max-time 12 -X POST -o /dev/null \
+            -w 'EXTERNAL_MCP_UNAUTH_HTTP=%{http_code}\n' "https://${BGSSH_HOST}/mcp" || true
+          echo "Expected for public reachability: HEALTH=200, MCP_UNAUTH=401"
