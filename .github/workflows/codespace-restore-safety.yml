@@ -41,6 +41,9 @@ jobs:
           c=json.loads(Path(".devcontainer/devcontainer.json").read_text())
           assert c.get("postStartCommand") == "bash /workspaces/BGDB/.devcontainer/restore-codespace.sh"
           assert c.get("postCreateCommand") == "sudo -n bash /workspaces/BGDB/.devcontainer/install-debian-deps.sh"
+          assert 8765 in c.get("forwardPorts", [])
+          assert c["portsAttributes"]["8765"]["protocol"] == "http"
+          assert c["portsAttributes"]["8765"]["onAutoForward"] == "notify"
           ssh=Path(".devcontainer/setup-bgadmin.sh").read_text()
           assert "Port 2222" in ssh
           assert "SSH_STATE=/workspaces/.bgdb-private/ssh-host-keys" in ssh
