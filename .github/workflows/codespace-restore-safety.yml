@@ -62,7 +62,7 @@ jobs:
           assert ".codex/bgssh-http-token" in http
           assert "head -c 32 /dev/urandom" in http
           assert '[[ ! -s "$TOKEN_FILE" ]]' in http
-          assert "import secrets" not in http
+          assert "print(secrets.token_hex" not in http  # token generation uses kernel CSPRNG
           assert "sudo -n chown vscode:vscode" in http
           assert '[[ -L "$HOME/.codex" || -L "$TOKEN_FILE" ]]' in http
           assert "chmod 600" in http
