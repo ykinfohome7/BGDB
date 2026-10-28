@@ -24,6 +24,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Validate Bash syntax for startup scripts
         run: |
+          bash -n .devcontainer/install-debian-deps.sh
           bash -n .devcontainer/setup-bgadmin.sh
           bash -n .devcontainer/setup-ai-tools.sh
           bash -n .devcontainer/restore-bgssh-mcp.sh
@@ -39,13 +40,24 @@ jobs:
           from pathlib import Path
           c=json.loads(Path(".devcontainer/devcontainer.json").read_text())
           assert c.get("postStartCommand") == "bash /workspaces/BGDB/.devcontainer/restore-codespace.sh"
+          assert c.get("postCreateCommand") == "sudo -n bash /workspaces/BGDB/.devcontainer/install-debian-deps.sh"
           ssh=Path(".devcontainer/setup-bgadmin.sh").read_text()
           assert "Port 2222" in ssh
           assert "SSH_STATE=/workspaces/.bgdb-private/ssh-host-keys" in ssh
           assert "/usr/sbin/sshd -t" in ssh
           assert "ssh-keygen -A" in ssh
-          assert "libpython3.13-stdlib python3.13-venv" in ssh
-          assert "python3 -I -c 'import secrets, venv, ssl" in ssh
+          assert "install-debian-deps.sh" in ssh
+          deps=Path(".devcontainer/install-debian-deps.sh").read_text()
+          assert 'dpkg-query -W' in deps
+          assert "libpython3.13-stdlib" in deps
+          assert "python3.13-venv" in deps
+          assert "python3-venv" in deps
+          assert "python3-pip-whl" in deps
+          assert "python3-setuptools-whl" in deps
+          assert "openssh-server" in deps and "curl" in deps
+          assert "secrets, venv, ssl, ensurepip" in deps
+          assert 'if (( ${#missing[@]} > 0 ))' in deps
+          assert "apt-get install -y --no-install-recommends" in deps
           first_run=Path(".devcontainer/finish-bgdb-setup.sh").read_text()
           assert "grep -qx 'port 2222'" in first_run
           assert "tee /etc/ssh/sshd_config.d/00-bgdb-password.conf" not in first_run
