@@ -7,6 +7,10 @@ REPO="$HOME/ai-engineering-dispatch"
 REMOTE="https://github.com/ykinfohome7/ai-engineering-dispatch.git"
 STATE="$HOME/.local/state/bgdb-ai-emds"
 mkdir -p "$STATE"
+# Някои AI инструменти използват временни файлове; избягвай общата /tmp/opencode.
+TMPROOT="$HOME/.cache/bgdb-ai-emds/tmp"
+mkdir -p -m 700 "$TMPROOT"
+export TMPDIR="$TMPROOT"
 exec 9>"$STATE/bootstrap.lock"
 if ! flock -n 9; then
   echo "[AI-EMDS] Another bootstrap is running; skipping."
