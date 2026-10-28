@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Show Codespaces identity and safe private SSH connection commands.
 cs="${CODESPACE_NAME:-unknown}"
-ssh_port="$(sudo -n /usr/sbin/sshd -T 2>/dev/null | awk '$1 == \"port\" {print $2; exit}' || true)"
+ssh_port="$(sudo -n /usr/sbin/sshd -T 2>/dev/null | awk '$1 == "port" {print $2; exit}' || true)"
 ssh_port="${ssh_port:-2222}"
 printf 'Detected SSH port: %s\n' "$ssh_port"
 printf '\n========== BGDB REMOTE ACCESS ==========\n'
@@ -41,3 +41,6 @@ fi
 printf '\nThe IP above and the github.dev URL are not public SSH hostnames.\n'
 printf 'On a fresh/rebuilt container, set the password once: sudo passwd bgadmin\n'
 printf '=========================================\n\n'
+
+printf 'BGDB SSH port %s uses SSH host keys, NOT a Lets Encrypt HTTPS certificate.\n' "$ssh_port"
+printf 'bgssh.abrdns.com is separate HTTPS ingress (443); it is NOT the SSH port.\n'

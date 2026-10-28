@@ -6,13 +6,14 @@
     "ghcr.io/tailscale/codespace/tailscale": {},
     "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
   },
-  "postStartCommand": "sudo -n bash /workspaces/BGDB/.devcontainer/setup-bgadmin.sh",
+  "postStartCommand": "bash /workspaces/BGDB/.devcontainer/restore-codespace.sh",
   "runArgs": [
     "--device=/dev/net/tun"
   ],
   "remoteUser": "vscode",
   "mounts": [
-    "source=bgdb-claude-config-${devcontainerId},target=/home/vscode/.claude,type=volume"
+    "source=bgdb-claude-config-${devcontainerId},target=/home/vscode/.claude,type=volume",
+    "source=bgdb-codex-config-${devcontainerId},target=/home/vscode/.codex,type=volume"
   ],
   "containerEnv": {
     "CLAUDE_CONFIG_DIR": "/home/vscode/.claude"
