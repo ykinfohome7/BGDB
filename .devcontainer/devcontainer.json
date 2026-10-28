@@ -29,20 +29,14 @@
       ]
     }
   },
-  "postCreateCommand": "sudo -n bash /workspaces/BGDB/.devcontainer/fix-tmp-permissions.sh && sudo -n bash /workspaces/BGDB/.devcontainer/install-debian-deps.sh && sudo -n bash /workspaces/BGDB/.devcontainer/install-ai-emds-deps.sh",
+  "postCreateCommand": "sudo -n bash /workspaces/BGDB/.devcontainer/fix-tmp-permissions.sh && sudo -n bash /workspaces/BGDB/.devcontainer/install-debian-deps.sh",
   "forwardPorts": [
-    8765,
-    3100
+    8765
   ],
   "portsAttributes": {
     "8765": {
       "label": "BGSSH MCP (private)",
       "onAutoForward": "notify",
-      "protocol": "http"
-    },
-    "3100": {
-      "label": "Paperclip AI-EMDS UI (private)",
-      "onAutoForward": "silent",
       "protocol": "http"
     }
   }
